@@ -46,7 +46,7 @@ become stale and which review gate must reopen.
 
 ## Current status
 
-This repository is an alpha scaffold. Version `0.1.0-alpha` focuses on:
+This repository is an alpha scaffold. Version `0.1.0-alpha.1` focuses on:
 
 1. the direction-audit gate;
 2. machine-readable project entities;
