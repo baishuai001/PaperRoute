@@ -18,6 +18,7 @@ Its purpose is to demonstrate:
 - candidate data, method, and code resources;
 - a high-risk direction decision;
 - a pending human review;
+- manuscript-linked work items with explicit stopping conditions;
 - dependencies used for impact analysis.
 
 Run:

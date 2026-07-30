@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import shutil
 import tempfile
 import unittest
@@ -40,6 +41,60 @@ class PaperRouteCoreTests(unittest.TestCase):
             init_project(target, "PRJ-TEST", "Test project")
             report = validate_project(target)
             self.assertTrue(report.ok, report.errors)
+            self.assertTrue(
+                (target / "registry" / "work_items.tsv").exists()
+            )
+
+    def test_publication_goal_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "project"
+            shutil.copytree(EXAMPLE_PROJECT, target)
+            manifest_path = target / "PROJECT.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            del manifest["publication_goal"]
+            manifest_path.write_text(
+                json.dumps(manifest, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            report = validate_project(target)
+            self.assertFalse(report.ok)
+            self.assertTrue(
+                any("publication_goal" in error for error in report.errors)
+            )
+
+    def test_work_item_requires_a_stop_condition(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "project"
+            shutil.copytree(EXAMPLE_PROJECT, target)
+            registry_path = target / "registry" / "work_items.tsv"
+            with registry_path.open(
+                encoding="utf-8", newline=""
+            ) as handle:
+                reader = csv.DictReader(handle, delimiter="\t")
+                fieldnames = reader.fieldnames
+                rows = list(reader)
+            self.assertIsNotNone(fieldnames)
+            rows[0]["stop_condition"] = ""
+            with registry_path.open(
+                "w", encoding="utf-8", newline=""
+            ) as handle:
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=fieldnames,
+                    delimiter="\t",
+                    lineterminator="\n",
+                )
+                writer.writeheader()
+                writer.writerows(rows)
+
+            report = validate_project(target)
+            self.assertFalse(report.ok)
+            self.assertTrue(
+                any(
+                    "empty required value stop_condition" in error
+                    for error in report.errors
+                )
+            )
 
     def test_directional_result_requires_change_request(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -72,6 +127,8 @@ class PaperRouteCoreTests(unittest.TestCase):
                     "reroute",
                     "associational",
                     "Synthetic result used only to test feedback validation.",
+                    "The synthetic result would require revising the "
+                    "manuscript direction.",
                     "outputs/test.tsv",
                     "2026-01-01T00:01:00Z",
                 ],
@@ -90,6 +147,7 @@ class PaperRouteCoreTests(unittest.TestCase):
                 target / "registry" / "change_requests.tsv",
                 [
                     "CHANGE-TEST-001",
+                    "WORK-001",
                     "RESULT-TEST-001",
                     "direction",
                     "high",

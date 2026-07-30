@@ -20,12 +20,14 @@ manifest, environment, timestamps, and output artifacts.
 
 PaperRoute separates machine-readable state from generated prose:
 
-1. `PROJECT.json` stores project identity and current gate.
-2. `registry/*.tsv` stores entities, references, and statuses.
-3. decisions and reviews store human judgment.
-4. code reads approved configuration and registries.
-5. runs record what actually executed.
-6. Markdown reports are views generated from those sources.
+1. `PROJECT_DISCIPLINE.md` defines the binding purpose and scope rules.
+2. `PROJECT.json` stores project identity, publication goal, and current gate.
+3. `registry/*.tsv` stores entities, references, and statuses.
+4. work items connect activity to manuscript output and a stop condition.
+5. decisions and reviews store human judgment.
+6. code reads approved configuration and registries.
+7. runs record what actually executed.
+8. Markdown reports are views generated from those sources.
 
 A decision that exists only in chat is not a project decision. A threshold that
 exists only inside a script is not an approved parameter. A figure without a
@@ -37,6 +39,7 @@ source table and run record is not a complete result.
 - `Direction`: a versioned retain/replace/extend research route.
 - `Claim`: a testable scientific statement and its claim ceiling.
 - `Resource`: dataset, method, code, document, or environment.
+- `WorkItem`: manuscript-linked work with a minimum deliverable and stop rule.
 - `Module`: an analysis specification linked to one claim.
 - `Decision`: a proposed or accepted scientific or technical judgment.
 - `Review`: human approval, rejection, requested change, or reopening.

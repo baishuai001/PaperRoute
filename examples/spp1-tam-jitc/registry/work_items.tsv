@@ -1,0 +1,3 @@
+work_id	title	status	reason	linked_ids	expected_manuscript_output	stop_condition	priority	notes
+WORK-001	Complete and review the direction audit	in_progress	review_requirement	DIR-001;DECISION-001	Approved primary and backup directions with an explicit manuscript contribution statement	User approves one primary route and one backup, or rejects the project route	critical	No deep data acquisition or full analysis implementation before this stops.
+WORK-002	Specify the patient-level SPP1+TAM pilot module	proposed	manuscript_claim	CLAIM-001;MODULE-001	Candidate Methods subsection and one manuscript Figure or Table specification	The module input contract and inferential design are approved or rejected	high	Implementation waits for WORK-001 approval.

@@ -30,9 +30,11 @@ The validator requires a change request for every `refine`, `reroute`, or
 A change request records:
 
 - the triggering result, if any;
+- the manuscript-linked work item;
 - change type and severity;
 - affected entities;
 - proposed action;
+- expected manuscript implication;
 - gate to reopen;
 - review and implementation status.
 
@@ -66,3 +68,7 @@ the original plan:
 
 This prevents a negative result from being silently converted into a different
 positive hypothesis.
+
+Feedback is not permission for unlimited optimization. A change request without
+a manuscript-linked work item, an expected output, and a stopping condition is
+out of scope.

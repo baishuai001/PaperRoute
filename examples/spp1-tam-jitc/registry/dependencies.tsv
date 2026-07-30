@@ -6,4 +6,6 @@ RESOURCE-DATA-001	MODULE-001	uses	true	The candidate dataset supplies observatio
 RESOURCE-METHOD-001	MODULE-001	uses	true	The candidate method supplies the estimand implementation.
 RESOURCE-CODE-001	MODULE-001	uses	true	The official vignette is the candidate code donor.
 RESOURCE-ENV-001	MODULE-001	requires	true	The module requires a pinned execution environment.
+WORK-001	DECISION-001	governs	true	The direction decision is the manuscript-linked output of this work item.
+WORK-002	MODULE-001	governs	true	The module exists only to deliver the specified manuscript output.
 DECISION-001	DIR-001	governs	true	The direction cannot be activated before this decision is reviewed.

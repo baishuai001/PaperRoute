@@ -1,5 +1,10 @@
 # Roadmap
 
+Roadmap items are accepted only when they advance a real manuscript claim,
+close an evidence gap, reduce a conclusion-changing correctness risk, satisfy
+a minimum reproducibility requirement, or answer a review requirement.
+Software generalization is not a goal by itself.
+
 ## v0.1 - Direction audit and feedback
 
 - Project manifest and entity registries
@@ -53,3 +58,6 @@
 - Preferred workflow engine for mixed R/Python projects
 - Whether paper-specific instances live in separate repositories
 - Optional web review interface
+
+Deferred items remain deferred unless a manuscript-linked work item and stop
+condition justify promoting them.

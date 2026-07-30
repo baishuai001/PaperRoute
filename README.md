@@ -3,6 +3,11 @@
 PaperRoute is a direction-first, auditable workflow for turning an anchor paper
 into an executable study.
 
+Its primary output is a scientifically defensible manuscript produced by a
+beginner-led project. The workflow is a means to that end, not an object of
+unbounded optimization. See the binding
+[Project Discipline](PROJECT_DISCIPLINE.md).
+
 It is designed for literature reproduction, independent reconstruction, and
 research adaptation where scientific direction, data selection, method choice,
 code implementation, and human review must remain traceable.
@@ -96,6 +101,7 @@ manifests, checksums, access state, and provenance.
 
 ## Documentation
 
+- [Project Discipline](PROJECT_DISCIPLINE.md)
 - [Concepts](docs/concepts.md)
 - [Workflow and gates](docs/workflow.md)
 - [Feedback and review](docs/feedback-loop.md)

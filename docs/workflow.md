@@ -5,6 +5,14 @@ choose a direction without downloading every large dataset. The second pass
 performs deep data, method, code, and implementation audit after the direction
 is approved.
 
+At every gate, proposed work must pass the manuscript-relevance test:
+
+1. Which manuscript claim, section, figure, evidence gap, or review does it
+   serve?
+2. What is the minimum sufficient output?
+3. What is the stopping condition?
+4. Would not doing it materially weaken scientific validity or reproducibility?
+
 ## G0 - Direction
 
 - Extract the anchor paper's research grammar.
@@ -55,3 +63,6 @@ is approved.
 Approval is versioned, not permanent. New results or external evidence may
 reopen an earlier gate. Reopening creates a new direction, claim, decision, or
 method version; it does not silently overwrite the previously reviewed state.
+Reopening must also explain whether the change strengthens the manuscript,
+changes its contribution, lowers its claim ceiling, or makes the route
+unpublishable.
