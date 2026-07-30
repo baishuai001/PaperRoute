@@ -1,0 +1,9 @@
+upstream_id	downstream_id	relation	active	notes
+PAPER-001	DIR-001	anchors	true	The anchor paper supplies the initial research grammar.
+DIR-001	CLAIM-001	governs	true	Direction changes may invalidate or replace the claim.
+CLAIM-001	MODULE-001	tests	true	The module is specified to test this claim.
+RESOURCE-DATA-001	MODULE-001	uses	true	The candidate dataset supplies observations.
+RESOURCE-METHOD-001	MODULE-001	uses	true	The candidate method supplies the estimand implementation.
+RESOURCE-CODE-001	MODULE-001	uses	true	The official vignette is the candidate code donor.
+RESOURCE-ENV-001	MODULE-001	requires	true	The module requires a pinned execution environment.
+DECISION-001	DIR-001	governs	true	The direction cannot be activated before this decision is reviewed.

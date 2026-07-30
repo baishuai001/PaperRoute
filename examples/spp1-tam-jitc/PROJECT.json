@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "project_id": "PRJ-SPP1-TAM-JITC",
+  "title": "SPP1+TAM JITC direction-audit pilot",
+  "project_status": "direction_review",
+  "current_gate": "G0_DIRECTION",
+  "anchor_paper_id": "PAPER-001",
+  "active_direction_id": "DIR-001",
+  "feedback_policy": {
+    "effects_requiring_change_request": [
+      "refine",
+      "reroute",
+      "stop"
+    ],
+    "invalidate_downstream_on_approved_change": true,
+    "require_review_before_high_impact_change": true
+  }
+}

@@ -1,0 +1,55 @@
+# Roadmap
+
+## v0.1 - Direction audit and feedback
+
+- Project manifest and entity registries
+- Direction, claim, resource, module, decision, review, run, and result entities
+- Result-driven change requests
+- Dependency impact analysis
+- Validation and status commands
+- SPP1+TAM pilot instance
+
+## v0.2 - Evidence availability audit
+
+- Paper and supplementary-material intake
+- Dataset, file, method, and code-source specialization
+- Availability and access gates
+- Evidence snapshots and provenance checks
+- Generated review packets
+
+## v0.3 - Analysis specifications
+
+- Typed input and output contracts
+- Biological replicate and estimand fields
+- Parameter provenance
+- Discovery and validation separation
+- Claim-ceiling checks
+
+## v0.4 - Executable modules
+
+- R, Python, and external workflow adapters
+- Run manifests and checkpoints
+- Scientific invariants and regression tests
+- Server execution profiles
+- Stale-artifact enforcement
+
+## v0.5 - Full pilot
+
+- Complete SPP1+TAM JITC workflow instance
+- Direction audit through result and claim review
+- Figure source-table registry
+- Leave-one-dataset-out and negative-control examples
+
+## v1.0 - Stable workflow
+
+- Versioned schemas and migrations
+- Complete review and release protocol
+- Reusable project template
+- Documentation for beginning imitators and reviewers
+
+## Deferred decisions
+
+- Open-source license
+- Preferred workflow engine for mixed R/Python projects
+- Whether paper-specific instances live in separate repositories
+- Optional web review interface

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paperroute-workflow"
+version = "0.1.0a0"
+description = "Direction-first, auditable workflow from anchor papers to executable studies"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "PaperRoute contributors" }
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only"
+]
+
+[project.scripts]
+paperroute = "paperroute.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+paperroute = ["data/*.json"]

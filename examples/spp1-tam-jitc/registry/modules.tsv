@@ -1,0 +1,2 @@
+module_id	claim_id	status	title	input_contract	biological_unit	method_resource_id	code_resource_id	validity
+MODULE-001	CLAIM-001	planned	SPP1+TAM differential abundance pilot	Counts or cell labels; patient_id; sample_id; tissue; treatment	Patient or independent sample	RESOURCE-METHOD-001	RESOURCE-CODE-001	current

@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+build/
+dist/
+.venv/
+venv/
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+credentials*
+secrets*
+
+# Source material and controlled data
+source_materials/
+controlled_data/
+private_data/
+
+# Large sequencing and analysis artifacts
+data/
+cache/
+*.fastq
+*.fastq.gz
+*.bam
+*.cram
+*.h5
+*.h5ad
+*.loom
+*.rds
+*.RData
+*.zarr/
+
+# Project-generated heavy outputs
+runs/*/artifacts/
+outputs/intermediate/

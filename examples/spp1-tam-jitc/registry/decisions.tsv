@@ -1,0 +1,2 @@
+decision_id	decision_type	target_id	status	proposal	evidence	alternatives	risk	impact	requires_review	approved_review_id
+DECISION-001	direction	DIR-001	proposed	Select one primary transformation axis before deep data acquisition	Anchor-paper audit and current public-data inventory	Replace cancer; replace immune state; replace program; change clinical endpoint; pan-cancer extension; evidence-strengthening route	high	Determines all downstream claims, datasets, methods, and code	true
