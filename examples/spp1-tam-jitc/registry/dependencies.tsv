@@ -1,11 +1,32 @@
 upstream_id	downstream_id	relation	active	notes
 PAPER-001	DIR-001	anchors	true	The anchor paper supplies the initial research grammar.
 DIR-001	CLAIM-001	governs	true	Direction changes may invalidate or replace the claim.
-CLAIM-001	MODULE-001	tests	true	The module is specified to test this claim.
+CLAIM-001	MODULE-001	tests	false	The illustrative SPP1-only pilot was superseded in the G0 proposal; the claim remains registered until human review.
 RESOURCE-DATA-001	MODULE-001	uses	true	The candidate dataset supplies observations.
-RESOURCE-METHOD-001	MODULE-001	uses	true	The candidate method supplies the estimand implementation.
-RESOURCE-CODE-001	MODULE-001	uses	true	The official vignette is the candidate code donor.
+RESOURCE-METHOD-001	MODULE-001	uses	false	The G0 proposal changes the module from a single-cohort differential-state pilot to cross-cohort synthesis.
+RESOURCE-CODE-001	MODULE-001	uses	false	The official vignette remains a method fragment but is not the proposed engineering backbone.
 RESOURCE-ENV-001	MODULE-001	requires	true	The module requires a pinned execution environment.
 WORK-001	DECISION-001	governs	true	The direction decision is the manuscript-linked output of this work item.
 WORK-002	MODULE-001	governs	true	The module exists only to deliver the specified manuscript output.
 DECISION-001	DIR-001	governs	true	The direction cannot be activated before this decision is reviewed.
+DIR-001	DIR-002	derived_from	true	DIR-002 is the proposed bounded child route from the anchor audit.
+DIR-001	DIR-003	derived_from	true	DIR-003 is the proposed higher-burden backup route.
+DIR-001	DIR-004	derived_from	true	DIR-004 is retained only as a conditional treatment-context route.
+DIR-001	DIR-005	derived_from	true	DIR-005 retains the training reconstruction separately from manuscript novelty.
+DIR-002	CLAIM-002	governs	true	The primary candidate direction defines the transportability claim.
+DIR-003	CLAIM-003	governs	true	The backup candidate direction defines the malignancy-versus-niche claim.
+DIR-004	CLAIM-004	governs	true	The conditional direction defines the exploratory treatment claim.
+CLAIM-002	MODULE-001	tests	true	The proposed module is specified to test the primary candidate claim after approval.
+RESOURCE-METHOD-002	MODULE-001	uses	true	The candidate method synthesizes independent cohort-level effects.
+RESOURCE-CODE-002	MODULE-001	uses	true	The precomputed atlas workflow is the proposed engineering and metadata donor.
+RESOURCE-DOC-001	DECISION-001	supports	true	The dated G0 review packet records the recommendation and stopping conditions.
+PAPER-002	DIR-002	supports	true	The source cohort and M/N framework inform candidate state definitions and contrasts.
+PAPER-003	DIR-002	supports	true	The foundational CRLM atlas contributes published myeloid states and spatial evidence.
+PAPER-005	DIR-002	challenges	true	The CXCL9-SPP1 polarity paper constrains novelty and motivates continuous-state sensitivity analyses.
+PAPER-010	DIR-002	supports	true	The independent multiregional cohort can test spatial-zone transportability.
+PAPER-011	DIR-002	supports	true	The CRC atlas supplies a public reference object and strong engineering donor.
+PAPER-002	DIR-003	anchors	true	The malignancy-linked versus niche-linked concept originates in this study.
+RESOURCE-DATA-002	DIR-002	supports	true	GSE225857 is a candidate independent single-cell and spatial cohort.
+RESOURCE-DATA-004	DIR-002	supports	true	The CRC atlas supplies reference mapping and study-level discovery metadata.
+RESOURCE-DATA-005	DIR-002	supports	true	The Bellomo cohort supplies independent regional validation.
+RESOURCE-DATA-003	DIR-004	supports	true	GSE205506 is the key conditional treatment cohort.
