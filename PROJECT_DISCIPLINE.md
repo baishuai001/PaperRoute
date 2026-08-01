@@ -26,7 +26,36 @@ workflow、代码和审查机制都是服务论文产出的工具，不是最终
 
 不得通过替换名称、癌种、细胞或基因后直接重复原文叙事来制造创新。
 
-## 3. 四项核心质量标准
+## 3. 初学者导向与创新强度校准
+
+PaperRoute 同时服务于学习和论文产出，但必须分别评价学习价值与发表价值。
+锚点文献的质量、期刊层级或影响力不自动决定新项目的目标层级。学习一篇
+高水平文献，不等于必须把初学者项目推荐为同层级或更高层级的研究。
+
+方向选择遵守两条边界：
+
+- **创新下限**：不能只是替换癌种、细胞、基因或名称；必须新增至少一个
+  有意义的问题、证据、适用边界、临床联系或方法价值；
+- **雄心上限**：主张深度和研究复杂度不得超过可获得数据、可靠代码、
+  验证条件、时间、算力、实验资源和项目成员当前能力能够支撑的范围。
+
+G0 必须为每个候选方向选择一个贡献与难度层级：
+
+- `training_reproduction`：以精确复现或独立重建为主，主要交付学习成果；
+  单独完成通常不足以形成新论文；
+- `bounded_adaptation`：保留锚点研究骨架，只改变一个主要轴并增加必要验证；
+  这是初学者论文项目的默认候选层级；
+- `evidence_extension`：增加独立队列、证据尺度、临床终点或稳健性证据，
+  需要更强的数据整合和验证能力；
+- `mechanistic_extension`：加入新的干预、实验或因果证据，只有在相应资源
+  已确认时才可推荐，不得作为默认目标。
+
+这些层级描述证据负担和项目风险，不承诺任何期刊，也不与影响因子机械
+对应。AI 在提出高雄心路线时，必须同时给出至少一个更现实的受控路线，
+说明两者的学习收益、论文贡献、成本、失败风险和停止条件。降低不现实的
+雄心不等于放弃创新；保留创新要求也不等于把项目推向最高难度。
+
+## 4. 四项核心质量标准
 
 所有研究方向、主张、数据、方法和结果必须同时接受四项审查：
 
@@ -37,7 +66,7 @@ workflow、代码和审查机制都是服务论文产出的工具，不是最终
 
 代码可运行不能替代科学正确；结果显著不能替代逻辑成立。
 
-## 4. 论文导向的范围控制
+## 5. 论文导向的范围控制
 
 任何新增工作都必须至少属于以下一种理由：
 
@@ -56,7 +85,7 @@ workflow、代码和审查机制都是服务论文产出的工具，不是最终
 
 不能说明稿件价值和停止条件的优化，不进入当前范围。
 
-## 5. 最小充分工程
+## 6. 最小充分工程
 
 PaperRoute 只建设足以保证下列目标的工程能力：
 
@@ -70,7 +99,7 @@ PaperRoute 只建设足以保证下列目标的工程能力：
 在达到这些要求后，不因“还可以更优雅、更通用或更自动化”继续扩展。
 通用化只有在当前稿件需要，或已被至少两个真实项目证明重复需要时，才进入优先范围。
 
-## 6. 结果可以改变方向，但不能制造后验故事
+## 7. 结果可以改变方向，但不能制造后验故事
 
 结果可能要求继续、细化、改道或停止。任何 `refine`、`reroute` 或 `stop`
 必须：
@@ -85,7 +114,7 @@ PaperRoute 只建设足以保证下列目标的工程能力：
 
 不允许为了获得阳性结果而不断更换分组、阈值、基因集、队列或终点。
 
-## 7. 阴性、矛盾和不可行也是有效判断
+## 8. 阴性、矛盾和不可行也是有效判断
 
 项目目标是形成可信论文，而不是保证原假设成立。
 
@@ -98,7 +127,7 @@ PaperRoute 只建设足以保证下列目标的工程能力：
 若现有条件不足以形成科学上可信的稿件，应及时改道或停止，而不是通过
 无穷优化延长项目。
 
-## 8. 人机分工
+## 9. 人机分工
 
 AI 负责信息采集、结构化整理、候选方案、代码实现、测试、差异识别和
 影响分析。用户负责审查研究方向、高风险替代、结论边界和最终稿件判断。
@@ -106,7 +135,7 @@ AI 负责信息采集、结构化整理、候选方案、代码实现、测试�
 AI 的建议默认是 `proposed`，不是自动批准。重要决定必须进入结构化
 Decision/Review 记录，不能只存在于聊天上下文。
 
-## 9. 完成定义
+## 10. 完成定义
 
 PaperRoute 项目的完成，不以 workflow 功能数量衡量，而以是否交付以下内容衡量：
 
@@ -126,6 +155,11 @@ PaperRoute 项目的完成，不以 workflow 功能数量衡量，而以是否�
 
 PaperRoute exists to help a beginner-led project produce a scientifically
 defensible manuscript through audited imitation and justified adaptation.
+Anchor-paper prestige, learning value, and target-manuscript ambition are
+separate judgments. Each direction must state its learning objective,
+contribution tier, novelty floor, and ambition ceiling; bounded adaptation is
+the default beginner candidate, while high-burden mechanistic work requires
+confirmed resources.
 Software and workflow optimization are subordinate to manuscript value.
 Every work item must link to a manuscript claim, evidence gap, correctness
 risk, reproducibility requirement, or review requirement; it must also define

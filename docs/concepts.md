@@ -36,7 +36,9 @@ source table and run record is not a complete result.
 ## Core entities
 
 - `Paper`: anchor or supporting literature.
-- `Direction`: a versioned retain/replace/extend research route.
+- `Direction`: a versioned retain/replace/extend research route with a learning
+  objective, ambition tier, target contribution, novelty floor, and ambition
+  ceiling.
 - `Claim`: a testable scientific statement and its claim ceiling.
 - `Resource`: dataset, method, code, document, or environment.
 - `WorkItem`: manuscript-linked work with a minimum deliverable and stop rule.

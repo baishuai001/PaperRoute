@@ -12,6 +12,11 @@ It is designed for literature reproduction, independent reconstruction, and
 research adaptation where scientific direction, data selection, method choice,
 code implementation, and human review must remain traceable.
 
+PaperRoute treats anchor-paper prestige, learning value, and target-manuscript
+ambition as separate judgments. Its default beginner route is bounded,
+publishable adaptation: enough innovation to avoid relabelling, but no automatic
+escalation to top-tier mechanistic claims without the required evidence.
+
 PaperRoute is not a paper manager, a data warehouse, or a collection of
 analysis notebooks. Its core is a versioned set of entities and dependencies:
 

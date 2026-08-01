@@ -330,6 +330,17 @@ def validate_project(project_dir: Path) -> ValidationReport:
             "PROJECT.json: active direction is rejected or superseded"
         )
 
+    for row in registries.get("directions", []):
+        if row.get("status") not in {"approved", "active"}:
+            continue
+        direction_name = row.get("direction_id", "(unknown)")
+        for field_name in {"primary_change_axis", "ambition_tier"}:
+            if row.get(field_name) == "undecided":
+                report.errors.append(
+                    f"approved direction {direction_name} has undecided "
+                    f"{field_name}"
+                )
+
     results_needing_change = {
         row["result_id"]
         for row in registries.get("results", [])

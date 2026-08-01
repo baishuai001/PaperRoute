@@ -11,6 +11,8 @@ All notable changes to PaperRoute will be documented in this file.
 - Machine-readable publication goal, scope policy, and manuscript-linked work
   items.
 - Pull request checks for manuscript value and stopping conditions.
+- Calibrated direction tiers that separate learning value, novelty floor, and
+  realistic ambition ceiling from anchor-paper prestige.
 - Direction-first project model.
 - Machine-readable entity contract.
 - Project initialization, validation, status, and impact commands.

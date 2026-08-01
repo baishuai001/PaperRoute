@@ -96,6 +96,78 @@ class PaperRouteCoreTests(unittest.TestCase):
                 )
             )
 
+    def test_direction_requires_a_valid_ambition_tier(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "project"
+            shutil.copytree(EXAMPLE_PROJECT, target)
+            registry_path = target / "registry" / "directions.tsv"
+            with registry_path.open(
+                encoding="utf-8", newline=""
+            ) as handle:
+                reader = csv.DictReader(handle, delimiter="\t")
+                fieldnames = reader.fieldnames
+                rows = list(reader)
+            self.assertIsNotNone(fieldnames)
+            rows[0]["ambition_tier"] = "automatic_top_tier"
+            with registry_path.open(
+                "w", encoding="utf-8", newline=""
+            ) as handle:
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=fieldnames,
+                    delimiter="\t",
+                    lineterminator="\n",
+                )
+                writer.writeheader()
+                writer.writerows(rows)
+
+            report = validate_project(target)
+            self.assertFalse(report.ok)
+            self.assertTrue(
+                any(
+                    "invalid ambition_tier" in error
+                    for error in report.errors
+                )
+            )
+
+    def test_approved_direction_requires_a_decided_ambition_tier(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "project"
+            shutil.copytree(EXAMPLE_PROJECT, target)
+            registry_path = target / "registry" / "directions.tsv"
+            with registry_path.open(
+                encoding="utf-8", newline=""
+            ) as handle:
+                reader = csv.DictReader(handle, delimiter="\t")
+                fieldnames = reader.fieldnames
+                rows = list(reader)
+            self.assertIsNotNone(fieldnames)
+            rows[0]["status"] = "approved"
+            rows[0]["primary_change_axis"] = "immune_state"
+            with registry_path.open(
+                "w", encoding="utf-8", newline=""
+            ) as handle:
+                writer = csv.DictWriter(
+                    handle,
+                    fieldnames=fieldnames,
+                    delimiter="\t",
+                    lineterminator="\n",
+                )
+                writer.writeheader()
+                writer.writerows(rows)
+
+            report = validate_project(target)
+            self.assertFalse(report.ok)
+            self.assertTrue(
+                any(
+                    "approved direction DIR-001 has undecided "
+                    "ambition_tier" in error
+                    for error in report.errors
+                )
+            )
+
     def test_directional_result_requires_change_request(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"

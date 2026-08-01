@@ -49,10 +49,28 @@
         "invariants",
         "primary_change_axis",
         "secondary_extension",
+        "ambition_tier",
+        "learning_objective",
+        "target_contribution",
+        "novelty_floor",
+        "ambition_ceiling",
         "novelty_summary",
         "feasibility_summary",
         "claim_ceiling",
         "approved_review_id"
+      ],
+      "nonempty_fields": [
+        "title",
+        "invariants",
+        "primary_change_axis",
+        "ambition_tier",
+        "learning_objective",
+        "target_contribution",
+        "novelty_floor",
+        "ambition_ceiling",
+        "novelty_summary",
+        "feasibility_summary",
+        "claim_ceiling"
       ],
       "enums": {
         "status": [
@@ -63,6 +81,13 @@
           "challenged",
           "superseded",
           "rejected"
+        ],
+        "ambition_tier": [
+          "undecided",
+          "training_reproduction",
+          "bounded_adaptation",
+          "evidence_extension",
+          "mechanistic_extension"
         ]
       },
       "references": [
