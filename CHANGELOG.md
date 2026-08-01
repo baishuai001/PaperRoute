@@ -4,6 +4,8 @@ All notable changes to PaperRoute will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.0-alpha.1] - 2026-08-01
+
 ### Added
 
 - Binding project discipline centered on producing a scientifically defensible
