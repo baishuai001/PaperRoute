@@ -95,11 +95,19 @@ def main(argv: list[str] | None = None) -> int:
                 print(json.dumps(summary, indent=2, ensure_ascii=False))
             else:
                 print(f"project: {summary['project_id']}")
+                print(f"primary output: {summary['primary_output']}")
                 print(f"status: {summary['project_status']}")
                 print(f"gate: {summary['current_gate']}")
                 print(
                     f"active direction: "
                     f"{summary['active_direction_id'] or '(not selected)'}"
+                )
+                print(
+                    "open work items: "
+                    + (
+                        ", ".join(summary["open_work_items"])
+                        or "none"
+                    )
                 )
                 print(
                     "pending reviews: "

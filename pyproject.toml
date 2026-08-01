@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "paperroute-workflow"
-version = "0.1.0a0"
+version = "0.1.0a1"
 description = "Direction-first, auditable workflow from anchor papers to executable studies"
 readme = "README.md"
 requires-python = ">=3.10"

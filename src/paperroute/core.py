@@ -84,6 +84,12 @@ def load_registries(
             )
 
         for row_number, row in enumerate(rows, start=2):
+            for field_name in spec.get("nonempty_fields", []):
+                if not row.get(field_name, ""):
+                    report.errors.append(
+                        f"{spec['file']}:{row_number}: empty required "
+                        f"value {field_name}"
+                    )
             for field_name, enum_spec in spec.get("enums", {}).items():
                 value = row.get(field_name, "")
                 allowed = _allowed_values(enum_spec, contract)
@@ -122,6 +128,8 @@ def validate_project(project_dir: Path) -> ValidationReport:
         "current_gate",
         "anchor_paper_id",
         "active_direction_id",
+        "publication_goal",
+        "scope_policy",
         "feedback_policy",
     }
     missing_manifest = sorted(required_manifest - set(manifest))
@@ -143,6 +151,96 @@ def validate_project(project_dir: Path) -> ValidationReport:
         report.errors.append(
             f"PROJECT.json: invalid current_gate "
             f"{manifest.get('current_gate')!r}"
+        )
+
+    publication_goal = manifest.get("publication_goal", {})
+    required_goal_keys = {
+        "primary_output",
+        "audience",
+        "approach",
+        "quality_axes",
+        "success_definition",
+    }
+    missing_goal_keys = sorted(
+        required_goal_keys - set(publication_goal)
+        if isinstance(publication_goal, dict)
+        else required_goal_keys
+    )
+    if missing_goal_keys:
+        report.errors.append(
+            "PROJECT.json publication_goal: missing keys "
+            + ", ".join(missing_goal_keys)
+        )
+    if isinstance(publication_goal, dict):
+        for key in required_goal_keys - {"quality_axes"}:
+            value = publication_goal.get(key)
+            if not isinstance(value, str) or not value.strip():
+                report.errors.append(
+                    f"PROJECT.json publication_goal: {key} must be "
+                    "a non-empty string"
+                )
+    required_quality_axes = {
+        "innovation",
+        "feasibility",
+        "scientific_validity",
+        "logical_rigor",
+    }
+    quality_axes = (
+        set(publication_goal.get("quality_axes", []))
+        if isinstance(publication_goal, dict)
+        else set()
+    )
+    missing_quality_axes = sorted(required_quality_axes - quality_axes)
+    if missing_quality_axes:
+        report.errors.append(
+            "PROJECT.json publication_goal: missing quality axes "
+            + ", ".join(missing_quality_axes)
+        )
+
+    scope_policy = manifest.get("scope_policy", {})
+    required_scope_keys = {
+        "allowed_work_reasons",
+        "optimization_stop_rule",
+        "require_work_item_for_modules",
+        "require_manuscript_implication_for_results",
+    }
+    missing_scope_keys = sorted(
+        required_scope_keys - set(scope_policy)
+        if isinstance(scope_policy, dict)
+        else required_scope_keys
+    )
+    if missing_scope_keys:
+        report.errors.append(
+            "PROJECT.json scope_policy: missing keys "
+            + ", ".join(missing_scope_keys)
+        )
+    if isinstance(scope_policy, dict):
+        stop_rule = scope_policy.get("optimization_stop_rule")
+        if not isinstance(stop_rule, str) or not stop_rule.strip():
+            report.errors.append(
+                "PROJECT.json scope_policy: optimization_stop_rule must "
+                "be a non-empty string"
+            )
+        for key in {
+            "require_work_item_for_modules",
+            "require_manuscript_implication_for_results",
+        }:
+            if scope_policy.get(key) is not True:
+                report.errors.append(
+                    f"PROJECT.json scope_policy: {key} must be true"
+                )
+    default_work_reasons = set(
+        contract["registries"]["work_items"]["enums"]["reason"]
+    )
+    configured_work_reasons = (
+        set(scope_policy.get("allowed_work_reasons", []))
+        if isinstance(scope_policy, dict)
+        else set()
+    )
+    if configured_work_reasons != default_work_reasons:
+        report.errors.append(
+            "PROJECT.json scope_policy allowed_work_reasons must match "
+            "the binding project discipline"
         )
 
     registries, registry_report = load_registries(project_dir, contract)
@@ -231,6 +329,17 @@ def validate_project(project_dir: Path) -> ValidationReport:
         report.errors.append(
             "PROJECT.json: active direction is rejected or superseded"
         )
+
+    for row in registries.get("directions", []):
+        if row.get("status") not in {"approved", "active"}:
+            continue
+        direction_name = row.get("direction_id", "(unknown)")
+        for field_name in {"primary_change_axis", "ambition_tier"}:
+            if row.get(field_name) == "undecided":
+                report.errors.append(
+                    f"approved direction {direction_name} has undecided "
+                    f"{field_name}"
+                )
 
     results_needing_change = {
         row["result_id"]
@@ -332,6 +441,38 @@ def init_project(target: Path, project_id: str, title: str) -> Path:
         "current_gate": "G0_DIRECTION",
         "anchor_paper_id": "",
         "active_direction_id": "",
+        "publication_goal": {
+            "primary_output": "A scientifically defensible manuscript",
+            "audience": "Beginner-led project with AI assistance",
+            "approach": (
+                "Audited imitation and justified adaptation, not copying"
+            ),
+            "quality_axes": [
+                "innovation",
+                "feasibility",
+                "scientific_validity",
+                "logical_rigor",
+            ],
+            "success_definition": (
+                "An evidence-linked manuscript draft with reproducible "
+                "source tables, figures, methods, and explicit limitations"
+            ),
+        },
+        "scope_policy": {
+            "allowed_work_reasons": [
+                "manuscript_claim",
+                "evidence_gap",
+                "correctness_risk",
+                "reproducibility_requirement",
+                "review_requirement",
+            ],
+            "optimization_stop_rule": (
+                "Stop when the minimum implementation needed for manuscript "
+                "validity, reproducibility, and reviewability is complete"
+            ),
+            "require_work_item_for_modules": True,
+            "require_manuscript_implication_for_results": True,
+        },
         "feedback_policy": {
             "effects_requiring_change_request": [
                 "refine",
@@ -407,6 +548,9 @@ def status_summary(project_dir: Path) -> dict[str, Any]:
         "project_status": manifest.get("project_status"),
         "current_gate": manifest.get("current_gate"),
         "active_direction_id": manifest.get("active_direction_id"),
+        "primary_output": manifest.get("publication_goal", {}).get(
+            "primary_output"
+        ),
         "entity_counts": {
             name: len(rows) for name, rows in registries.items()
         },
@@ -424,6 +568,12 @@ def status_summary(project_dir: Path) -> dict[str, Any]:
             row.get("change_id")
             for row in registries.get("change_requests", [])
             if row.get("status") in {"proposed", "approved", "implemented"}
+        ],
+        "open_work_items": [
+            row.get("work_id")
+            for row in registries.get("work_items", [])
+            if row.get("status")
+            in {"proposed", "approved", "in_progress", "blocked"}
         ],
         "validation_errors": validation.errors,
         "validation_warnings": (

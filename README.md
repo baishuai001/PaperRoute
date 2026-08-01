@@ -3,9 +3,19 @@
 PaperRoute is a direction-first, auditable workflow for turning an anchor paper
 into an executable study.
 
+Its primary output is a scientifically defensible manuscript produced by a
+beginner-led project. The workflow is a means to that end, not an object of
+unbounded optimization. See the binding
+[Project Discipline](PROJECT_DISCIPLINE.md).
+
 It is designed for literature reproduction, independent reconstruction, and
 research adaptation where scientific direction, data selection, method choice,
 code implementation, and human review must remain traceable.
+
+PaperRoute treats anchor-paper prestige, learning value, and target-manuscript
+ambition as separate judgments. Its default beginner route is bounded,
+publishable adaptation: enough innovation to avoid relabelling, but no automatic
+escalation to top-tier mechanistic claims without the required evidence.
 
 PaperRoute is not a paper manager, a data warehouse, or a collection of
 analysis notebooks. Its core is a versioned set of entities and dependencies:
@@ -41,7 +51,7 @@ become stale and which review gate must reopen.
 
 ## Current status
 
-This repository is an alpha scaffold. Version `0.1.0-alpha` focuses on:
+This repository is an alpha scaffold. Version `0.1.0-alpha.1` focuses on:
 
 1. the direction-audit gate;
 2. machine-readable project entities;
@@ -96,6 +106,7 @@ manifests, checksums, access state, and provenance.
 
 ## Documentation
 
+- [Project Discipline](PROJECT_DISCIPLINE.md)
 - [Concepts](docs/concepts.md)
 - [Workflow and gates](docs/workflow.md)
 - [Feedback and review](docs/feedback-loop.md)
