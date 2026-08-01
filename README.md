@@ -58,7 +58,7 @@ This repository is an alpha scaffold. Version `0.1.0-alpha.1` focuses on:
 3. explicit human review;
 4. result-to-change feedback;
 5. dependency impact analysis;
-6. a small SPP1+TAM pilot instance.
+6. isolated paper workspaces for pilot and evaluation cases.
 
 It does not yet orchestrate large sequencing analyses.
 
@@ -70,9 +70,9 @@ standard library.
 ```bash
 python -m pip install -e .
 
-paperroute validate examples/spp1-tam-jitc
-paperroute status examples/spp1-tam-jitc
-paperroute impact examples/spp1-tam-jitc DIR-001
+paperroute validate workspaces/spp1-tam-jitc
+paperroute status workspaces/spp1-tam-jitc
+paperroute impact workspaces/spp1-tam-jitc DIR-001
 ```
 
 Create a new draft project:
@@ -85,6 +85,22 @@ paperroute init ../my-paper-project \
 
 The generated draft contains a project manifest, registry headers, and folders
 for reviews, runs, reports, configuration, code, tests, and outputs.
+
+## Repository layers
+
+PaperRoute and the papers audited with it may share one repository, but they
+are different entities:
+
+- the repository root, `src/paperroute/`, `docs/`, and `tests/` contain the
+  reusable workflow;
+- every directory under `workspaces/` is an isolated paper instance with its
+  own `PROJECT.json`, registries, reports, decisions, and review state;
+- identifiers such as `WORK-001` and `DIR-001` are scoped to one workspace and
+  must never be joined across workspaces without the project ID;
+- source PDFs, large data, credentials, and controlled human data remain
+  outside Git and are referenced through provenance records only.
+
+See [Workspace boundaries](workspaces/README.md) before adding another paper.
 
 ## Repository boundaries
 

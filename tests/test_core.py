@@ -15,7 +15,12 @@ from paperroute.core import (
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE_PROJECT = REPOSITORY_ROOT / "examples" / "spp1-tam-jitc"
+SPP1_PROJECT = REPOSITORY_ROOT / "workspaces" / "spp1-tam-jitc"
+BMC_PROJECT = (
+    REPOSITORY_ROOT
+    / "workspaces"
+    / "bmc-cancer-2025-gastric-nerve-model"
+)
 
 
 def append_tsv(path: Path, values: list[str]) -> None:
@@ -26,11 +31,15 @@ def append_tsv(path: Path, values: list[str]) -> None:
 
 class PaperRouteCoreTests(unittest.TestCase):
     def test_example_project_validates(self) -> None:
-        report = validate_project(EXAMPLE_PROJECT)
+        report = validate_project(SPP1_PROJECT)
+        self.assertTrue(report.ok, report.errors)
+
+    def test_bmc_audit_workspace_validates(self) -> None:
+        report = validate_project(BMC_PROJECT)
         self.assertTrue(report.ok, report.errors)
 
     def test_direction_impact_reaches_claim_and_module(self) -> None:
-        impacted = downstream_impact(EXAMPLE_PROJECT, "DIR-001")
+        impacted = downstream_impact(SPP1_PROJECT, "DIR-001")
         ids = {item["entity_id"] for item in impacted}
         self.assertIn("CLAIM-001", ids)
         self.assertIn("MODULE-001", ids)
@@ -48,7 +57,7 @@ class PaperRouteCoreTests(unittest.TestCase):
     def test_publication_goal_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
+            shutil.copytree(SPP1_PROJECT, target)
             manifest_path = target / "PROJECT.json"
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             del manifest["publication_goal"]
@@ -65,7 +74,7 @@ class PaperRouteCoreTests(unittest.TestCase):
     def test_work_item_requires_a_stop_condition(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
+            shutil.copytree(SPP1_PROJECT, target)
             registry_path = target / "registry" / "work_items.tsv"
             with registry_path.open(
                 encoding="utf-8", newline=""
@@ -99,7 +108,7 @@ class PaperRouteCoreTests(unittest.TestCase):
     def test_direction_requires_a_valid_ambition_tier(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
+            shutil.copytree(SPP1_PROJECT, target)
             registry_path = target / "registry" / "directions.tsv"
             with registry_path.open(
                 encoding="utf-8", newline=""
@@ -135,7 +144,7 @@ class PaperRouteCoreTests(unittest.TestCase):
     ) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
+            shutil.copytree(SPP1_PROJECT, target)
             registry_path = target / "registry" / "directions.tsv"
             with registry_path.open(
                 encoding="utf-8", newline=""
@@ -171,7 +180,7 @@ class PaperRouteCoreTests(unittest.TestCase):
     def test_directional_result_requires_change_request(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
+            shutil.copytree(SPP1_PROJECT, target)
 
             append_tsv(
                 target / "registry" / "runs.tsv",

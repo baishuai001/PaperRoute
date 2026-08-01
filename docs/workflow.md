@@ -16,6 +16,14 @@ At every gate, proposed work must pass the manuscript-relevance test:
 ## G0 - Direction
 
 - Extract the anchor paper's research grammar.
+- Classify anchor fitness separately for design, data, method, code, and claim
+  reuse. An anchor may be a strong repair case but a poor method or code donor.
+- Audit construct validity before generating directions: state what each key
+  label is supposed to mean, what was actually measured, plausible alternative
+  explanations, and the orthogonal evidence needed to distinguish them.
+- Draw the cohort-role and independence map before accepting any result as
+  external validation; flag reuse in feature screening, model fitting,
+  threshold selection, or tuning as leakage or non-independent evidence.
 - Separate anchor-paper prestige, learning value, and target-manuscript
   ambition; one does not automatically determine the others.
 - Define invariants and candidate substitution or extension axes.
@@ -27,7 +35,28 @@ At every gate, proposed work must pass the manuscript-relevance test:
   compensate for unavailable core data, invalid design, or unsupported claims.
 - Present at least one realistic bounded route before recommending a
   high-burden mechanistic route.
+- Give every candidate a manuscript kernel: one-sentence question, biological
+  unit or estimand, decisive result or figure, falsifier, minimum data, minimum
+  trustworthy code donor, and explicit claim ceiling.
+- Apply a beginner execution budget covering data volume, method novelty,
+  compute, missing implementation detail, and the amount of new code that must
+  be independently verified.
 - Select a primary and backup direction through human review.
+
+### Required G0 outputs
+
+G0 is not complete until the review packet contains:
+
+1. an anchor-fitness verdict (template, donor, repair case, negative example,
+   or a mixture, with reuse dimensions separated);
+2. a construct/measurement map and fatal validity risks;
+3. a dataset access, overlap, and independence map;
+4. candidate directions plus explicit rejected routes;
+5. a manuscript kernel and minimum sufficient evidence for the primary and
+   backup routes;
+6. a training-only route when useful, kept separate from the manuscript route;
+7. a diagnosis of whether weak recommendations arose from the workflow, the
+   anchor paper, the available evidence, or their interaction.
 
 ### G0 ambition tiers
 

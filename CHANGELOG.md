@@ -6,6 +6,14 @@ All notable changes to PaperRoute will be documented in this file.
 
 ### Added
 
+- A second isolated WORK-001 / G0 evaluation workspace for the 2025 BMC
+  Cancer gastric nerve-related prognostic model, including anchor fitness,
+  construct validity, cohort independence, data/code availability, candidate
+  directions, rejected routes, and a workflow-versus-anchor diagnosis.
+- G0 hard checks for anchor fitness, construct validity, evidence independence,
+  manuscript kernels, and beginner execution burden.
+- A documented `workspaces/` boundary so additional test papers cannot mix
+  registries, paths, or decisions with the reusable PaperRoute framework.
 - A dated, evidence-backed WORK-001 / G0 audit packet for the SPP1+TAM pilot,
   including anchor grammar, data and code evidence, fatal-veto criteria,
   candidate directions, claim ceilings, and explicit stopping conditions.

@@ -39,9 +39,9 @@ the proposed primary and backup routes.
 Run:
 
 ```bash
-paperroute validate examples/spp1-tam-jitc
-paperroute status examples/spp1-tam-jitc
-paperroute impact examples/spp1-tam-jitc DIR-001
+paperroute validate workspaces/spp1-tam-jitc
+paperroute status workspaces/spp1-tam-jitc
+paperroute impact workspaces/spp1-tam-jitc DIR-001
 ```
 
 The G0 scientific audit is evidence-backed but remains a proposal until human
