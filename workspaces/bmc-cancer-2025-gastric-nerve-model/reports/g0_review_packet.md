@@ -1,7 +1,8 @@
 # WORK-001 / G0 方向审计评审包
 
 > **状态更新（2026-08-02）**：本文件保存旧的 NRRS 构念审计推荐，现已因方向模型缺陷
-> 被标记为 `challenged`，不再代表当前主推荐。新评审必须使用根目录
+> 被标记为 `challenged`，不再代表当前主推荐。当前候选组合见
+> [`g0_candidate_portfolio.md`](g0_candidate_portfolio.md)，并使用根目录
 > `docs/g0-decision-standard.md`、`registry/direction_changes.tsv` 和
 > `registry/direction_assessments.tsv`。本文件仅作为回归审计证据。
 

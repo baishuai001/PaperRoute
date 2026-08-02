@@ -29,14 +29,16 @@ Its purpose is to demonstrate:
 - [Evidence snapshot](reports/g0_evidence_snapshot.tsv)
 - [Direction matrix](reports/g0_direction_matrix.tsv)
 - [Human review packet](reports/g0_review_packet.md)
+- [Current v0.2 candidate portfolio](reports/g0_candidate_portfolio.md)
 - [Scoped anchor flaws](registry/anchor_flaws.tsv)
 - [Multi-axis candidate change maps](registry/direction_changes.tsv)
 - [Independent candidate assessments](registry/direction_assessments.tsv)
 
-The old reports are preserved as regression evidence, not current direction
-recommendations. `WORK-001`, `DECISION-001`, and `REVIEW-001` remain open while
-a scientifically diverse portfolio is regenerated under the v0.2 G0 decision
-standard. No deep data acquisition or manuscript implementation is authorized.
+The old direction matrix and review packet are preserved as regression evidence,
+not current recommendations. The current portfolio proposes `DIR-006` as primary,
+`DIR-007` as backup, `DIR-008` as reserve, and rejects `DIR-009`; all remain
+proposals until owner review. `WORK-001`, `DECISION-002`, and `REVIEW-001` remain
+open. No G1 data acquisition or manuscript implementation is authorized.
 
 Run:
 

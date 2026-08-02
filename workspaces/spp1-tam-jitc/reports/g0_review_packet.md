@@ -3,7 +3,9 @@
 > **状态更新（2026-08-02）**：本文件保存第一次 G0 推荐，现已因方向模型缺陷被标记为
 > `challenged`，不再代表当前主推荐。新评审必须使用根目录
 > `docs/g0-decision-standard.md`、`registry/direction_changes.tsv` 和
-> `registry/direction_assessments.tsv`。本文件仅作为回归审计证据。
+> `registry/direction_assessments.tsv`，并以
+> [`g0_candidate_portfolio.md`](g0_candidate_portfolio.md) 为当前候选组合。
+> 本文件仅作为回归审计证据。
 
 审计快照日期：2026-08-01
 
