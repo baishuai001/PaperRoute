@@ -8,8 +8,8 @@ Current workspaces:
 
 | Workspace | Role | Gate | Purpose |
 | --- | --- | --- | --- |
-| `spp1-tam-jitc/` | pilot study | G0 | Audit possible adaptations of the SPP1+TAM colorectal liver-metastasis paper. |
-| `bmc-cancer-2025-gastric-nerve-model/` | evaluation case | G0 | Test G0 on a prognostic-signature paper and audit a manuscript-worthy repair route. |
+| `spp1-tam-jitc/` | regression pilot | G0 | Re-audit possible adaptations of the SPP1+TAM paper; prior primary recommendation is challenged. |
+| `bmc-cancer-2025-gastric-nerve-model/` | regression case | G0 | Re-audit repair and adaptation routes for a prognostic-signature paper; prior primary recommendation is challenged. |
 
 Rules:
 

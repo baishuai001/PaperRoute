@@ -6,10 +6,10 @@ This is an isolated PaperRoute evaluation workspace for:
 > gastric cancer based on bulk and single-cell RNA sequencing data.
 
 It is intentionally held at `G0_DIRECTION`. The source PDF and supplement were
-reviewed locally but are not committed. `DIR-002` is proposed as the primary
-bounded route, `DIR-003` as a conditional higher-burden backup, and `DIR-005`
-as training-only reconstruction. None is approved until the owner reviews the
-G0 packet.
+reviewed locally but are not committed. The earlier `DIR-002` primary,
+`DIR-003` backup, and `DIR-004` reserve recommendations are now `challenged`
+because they were generated under the retired single-axis/ambition-tier model.
+`DIR-005` remains training-only. No manuscript direction is approved.
 
 The central G0 finding is that this anchor is useful mainly as a **repair and
 construct-validation case**, not as a complete method or code template. The
@@ -27,6 +27,14 @@ Review files:
 - [Candidate direction matrix](reports/g0_direction_matrix.tsv)
 - [WORK-001 / G0 review packet](reports/g0_review_packet.md)
 - [Workflow-versus-anchor diagnosis](reports/g0_diagnosis.md)
+- [Scoped anchor flaws](registry/anchor_flaws.tsv)
+- [Multi-axis candidate change maps](registry/direction_changes.tsv)
+- [Independent candidate assessments](registry/direction_assessments.tsv)
+
+The old G0 reports are preserved as regression evidence, not current
+recommendations. A new candidate portfolio must compare repair, scientifically
+justified single- or multi-axis adaptation, evidence extension, and donor
+combinations before the owner selects a route.
 
 Run:
 

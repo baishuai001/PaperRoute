@@ -12,17 +12,20 @@ It is designed for literature reproduction, independent reconstruction, and
 research adaptation where scientific direction, data selection, method choice,
 code implementation, and human review must remain traceable.
 
-PaperRoute treats anchor-paper prestige, learning value, and target-manuscript
-ambition as separate judgments. Its default beginner route is bounded,
-publishable adaptation: enough innovation to avoid relabelling, but no automatic
-escalation to top-tier mechanistic claims without the required evidence.
+PaperRoute treats scientific validity, feasibility, novelty, scientific value,
+implementation burden, learning value, and anchor reuse as separate judgments.
+A candidate may change one or multiple scientific axes; every change must have
+an explicit rationale, contribution role, evidence and donor plan, and risk.
+See the binding [G0 decision standard](docs/g0-decision-standard.md).
 
 PaperRoute is not a paper manager, a data warehouse, or a collection of
 analysis notebooks. Its core is a versioned set of entities and dependencies:
 
 ```text
 anchor paper
-  -> direction candidates
+  -> project brief and anchor roles
+  -> scoped flaws and candidate change maps
+  -> independent candidate assessments
   -> approved direction
   -> claims and evidence requirements
   -> resources and analysis modules
@@ -51,13 +54,14 @@ become stale and which review gate must reopen.
 
 ## Current status
 
-This repository is an alpha scaffold. Version `0.1.0-alpha.1` focuses on:
+This repository is an alpha scaffold. The current `0.2.0-alpha.1` development
+version focuses on:
 
-1. the direction-audit gate;
-2. machine-readable project entities;
-3. explicit human review;
-4. result-to-change feedback;
-5. dependency impact analysis;
+1. a defined scientific direction-decision standard;
+2. project briefs, scoped flaws, and multi-axis candidate change maps;
+3. independent candidate assessments and explicit human review;
+4. semantic validation and scientific decision regression cases;
+5. result-to-change feedback and dependency impact analysis;
 6. isolated paper workspaces for pilot and evaluation cases.
 
 It does not yet orchestrate large sequencing analyses.

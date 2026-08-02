@@ -18,12 +18,20 @@ run
 
 - `none`: the result has no implication for project direction.
 - `continue`: the result is compatible with the current route.
-- `refine`: a bounded change may be needed.
-- `reroute`: the active direction should be reconsidered.
+- `refine`: data, code, methods, parameters, evidence, or a bounded claim may
+  change while the approved manuscript kernel remains the same.
+- `reroute`: the central question, target effect, primary outcome, decisive
+  evidence, or contribution type changes so that the approved evidence chain
+  no longer answers the new manuscript kernel.
 - `stop`: continuing the current route is not justified.
 
 The validator requires a change request for every `refine`, `reroute`, or
 `stop` result.
+
+Alternative transformations compared before G0 approval are candidates, not
+reroutes. Replacing one or multiple axes during candidate generation is allowed
+when the change map and independent assessments are complete. The reroute rule
+applies only after a direction has been approved or activated.
 
 ## Change requests
 

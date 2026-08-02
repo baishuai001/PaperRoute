@@ -36,9 +36,17 @@ source table and run record is not a complete result.
 ## Core entities
 
 - `Paper`: anchor or supporting literature.
-- `Direction`: a versioned retain/replace/extend research route with a learning
-  objective, ambition tier, target contribution, novelty floor, and ambition
-  ceiling.
+- `Direction`: a versioned manuscript kernel: plain-language question,
+  biological unit, decisive evidence, falsifier, anchor-role profile, target
+  contribution, and claim ceiling.
+- `DirectionChange`: one retain, repair, replace, extend, or drop action on a
+  named scientific axis, with rationale, contribution role, evidence, donor
+  plan, risk, and linked anchor flaw.
+- `DirectionAssessment`: independent judgments of scientific validity,
+  feasibility, novelty, scientific value, implementation burden, learning
+  value, and anchor reuse. These judgments are not collapsed into one score.
+- `AnchorFlaw`: a scoped correctness, reproducibility, evidence, feasibility,
+  reporting, or limitation finding with an explicit required response.
 - `Claim`: a testable scientific statement and its claim ceiling.
 - `Resource`: dataset, method, code, document, or environment.
 - `WorkItem`: manuscript-linked work with a minimum deliverable and stop rule.

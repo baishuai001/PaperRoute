@@ -15,62 +15,54 @@ At every gate, proposed work must pass the manuscript-relevance test:
 
 ## G0 - Direction
 
-- Extract the anchor paper's research grammar.
-- Classify anchor fitness separately for design, data, method, code, and claim
-  reuse. An anchor may be a strong repair case but a poor method or code donor.
-- Audit construct validity before generating directions: state what each key
-  label is supposed to mean, what was actually measured, plausible alternative
-  explanations, and the orthogonal evidence needed to distinguish them.
-- Draw the cohort-role and independence map before accepting any result as
-  external validation; flag reuse in feature screening, model fitting,
-  threshold selection, or tuning as leakage or non-independent evidence.
-- Separate anchor-paper prestige, learning value, and target-manuscript
-  ambition; one does not automatically determine the others.
-- Define invariants and candidate substitution or extension axes.
-- Audit nearby literature, novelty, feasibility, fatal confounding, and claim
-  ceiling.
-- Give every candidate a learning objective, target contribution, novelty
-  floor, ambition ceiling, and one of four ambition tiers.
-- Apply fatal-veto criteria before comparative ranking so that novelty cannot
-  compensate for unavailable core data, invalid design, or unsupported claims.
-- Present at least one realistic bounded route before recommending a
-  high-burden mechanistic route.
-- Give every candidate a manuscript kernel: one-sentence question, biological
-  unit or estimand, decisive result or figure, falsifier, minimum data, minimum
-  trustworthy code donor, and explicit claim ceiling.
-- Apply a beginner execution budget covering data volume, method novelty,
-  compute, missing implementation detail, and the amount of new code that must
-  be independently verified.
-- Select a primary and backup direction through human review.
+G0 follows the binding [decision standard](g0-decision-standard.md):
+
+1. **Project brief** — state the manuscript goal, intended anchor roles,
+   permitted change axes, contribution preferences, resource constraints, and
+   human decision policy.
+2. **Anchor decomposition** — extract disease context, biological object,
+   central relation, primary outcome, evidence architecture, data, methods,
+   code, and claim level.
+3. **Flaw triage** — distinguish claim-, module-, resource-, and route-level
+   flaws from ordinary limitations and opportunities. A flaw does not
+   automatically become the new manuscript question.
+4. **Candidate portfolio** — generate scientifically coherent combinations of
+   retain, repair, replace, extend, and drop actions. Multi-axis change is
+   permitted; change count is not a novelty metric.
+5. **Change maps** — give every non-umbrella candidate exactly one explicit
+   decision for each core axis, plus rationale, contribution role, evidence,
+   donor plan, linked flaw, and risk.
+6. **Independent assessment** — audit scientific validity, feasibility,
+   novelty, scientific value, implementation burden, learning value, and anchor
+   reuse separately. Do not collapse them into an ambition tier or total score.
+7. **Manuscript kernel** — state the plain-language question, biological unit,
+   decisive evidence, falsifier, target contribution, and claim ceiling.
+8. **Human selection** — present non-dominated trade-offs. AI recommendations
+   remain proposed until the project owner approves one direction and records
+   the rationale.
 
 ### Required G0 outputs
 
 G0 is not complete until the review packet contains:
 
-1. an anchor-fitness verdict (template, donor, repair case, negative example,
-   or a mixture, with reuse dimensions separated);
-2. a construct/measurement map and fatal validity risks;
-3. a dataset access, overlap, and independence map;
-4. candidate directions plus explicit rejected routes;
-5. a manuscript kernel and minimum sufficient evidence for the primary and
-   backup routes;
-6. a training-only route when useful, kept separate from the manuscript route;
-7. a diagnosis of whether weak recommendations arose from the workflow, the
+1. a project-specific brief rather than the generic goal of “a defensible
+   manuscript”;
+2. an anchor-role verdict separating question, design, data, method, code,
+   evidence-chain, narrative, and negative-example reuse;
+3. a flaw register with scope, severity, required response, and candidate
+   implication;
+4. a dataset access, overlap, independence, and minimum-field map;
+5. a candidate portfolio with explicit rejected or challenged routes;
+6. one core-axis change map and one independent assessment per candidate;
+7. a manuscript kernel and minimum sufficient evidence for every live
+   manuscript candidate;
+8. a training-only route when useful, kept separate from manuscript candidates;
+9. a diagnosis of whether weak recommendations arose from the workflow, the
    anchor paper, the available evidence, or their interaction.
 
-### G0 ambition tiers
-
-- `training_reproduction`: reproduction or independent reconstruction for
-  learning; normally preparatory rather than a new manuscript by itself.
-- `bounded_adaptation`: one primary change axis plus necessary validation; the
-  default candidate for a beginner-led manuscript.
-- `evidence_extension`: additional cohorts, scales, endpoints, or robustness
-  evidence with a higher integration burden.
-- `mechanistic_extension`: new intervention, experimental, or causal evidence;
-  eligible only after the required resources are confirmed.
-
-The tiers describe evidence burden and project risk. They are not journal
-promises and do not map mechanically to impact factors.
+G0 has no single ambition-tier enum. Evidence level, implementation burden,
+learning value, anchor reuse, and scientific contribution are orthogonal and
+may coexist in different combinations.
 
 ## G1 - Evidence
 

@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.1.0",
+  "schema_version": "0.2.0",
   "project_id": "PRJ-SPP1-TAM-JITC",
   "title": "SPP1+TAM JITC direction-audit pilot",
   "project_status": "direction_review",
@@ -11,12 +11,46 @@
     "audience": "Beginner-led project with AI assistance",
     "approach": "Audited imitation and justified adaptation, not copying",
     "quality_axes": [
-      "innovation",
       "feasibility",
       "scientific_validity",
-      "logical_rigor"
+      "novelty",
+      "scientific_value",
+      "logical_rigor",
+      "implementation_burden",
+      "learning_value",
+      "anchor_reuse"
     ],
     "success_definition": "An evidence-linked manuscript draft with reproducible source tables, figures, methods, and explicit limitations"
+  },
+  "project_brief": {
+    "manuscript_goal": "Produce a beginner-executable manuscript that learns from the anchor's cross-scale tumor-immune ecology while comparing biologically specific adaptations, evidence extensions, and repair routes without assuming that a generic validation audit is the answer.",
+    "anchor_use_intent": "Use the SPP1+TAM paper primarily as a biological-question, design, narrative, and evidence-chain donor; reuse its data, methods, and code only where provenance and implementation quality are verified, and permit stronger supporting papers to supply missing modules.",
+    "allowed_change_axes": [
+      "disease_context",
+      "biological_object",
+      "central_relation",
+      "primary_outcome",
+      "evidence_architecture",
+      "data",
+      "method",
+      "code",
+      "claim_level"
+    ],
+    "preferred_contribution_types": [
+      "biological",
+      "clinical",
+      "validation",
+      "methodological"
+    ],
+    "resource_constraints": "Prioritize public or accessible human sequencing and spatial data, verified code donors, the available 512 GB RAM and 24 GB GPU server, and a beginner-auditable implementation; do not make wet-lab intervention or therapeutic-synergy evidence a hidden dependency.",
+    "decision_policy": {
+      "allow_multi_axis_change": true,
+      "require_explicit_change_map": true,
+      "require_independent_quality_assessments": true,
+      "require_candidate_portfolio": true,
+      "require_human_selection": true,
+      "treat_repair_as_non_novel_by_default": true
+    }
   },
   "scope_policy": {
     "allowed_work_reasons": [

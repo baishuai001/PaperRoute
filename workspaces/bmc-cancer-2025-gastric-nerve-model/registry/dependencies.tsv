@@ -4,6 +4,6 @@ DIR-001	DIR-002	derived_from	true	Primary bounded repair candidate.
 DIR-001	DIR-003	derived_from	true	Conditional higher-burden biological candidate.
 DIR-001	DIR-004	derived_from	true	Reserve methodological benchmark candidate.
 DIR-001	DIR-005	derived_from	true	Training reconstruction kept separate from manuscript novelty.
-DIR-002	CLAIM-001	governs	true	The claim is valid only if DIR-002 is approved.
+DIR-002	CLAIM-001	governs	false	The historical construct-audit claim is stale while DIR-002 is challenged.
 WORK-001	DECISION-001	produces	true	The G0 audit produces the direction proposal.
 DECISION-001	REVIEW-001	requires	true	The high-impact direction decision requires owner review.
