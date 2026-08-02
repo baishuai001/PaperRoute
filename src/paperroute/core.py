@@ -129,6 +129,7 @@ def validate_project(project_dir: Path) -> ValidationReport:
         "anchor_paper_id",
         "active_direction_id",
         "publication_goal",
+        "project_brief",
         "scope_policy",
         "feedback_policy",
     }
@@ -180,10 +181,14 @@ def validate_project(project_dir: Path) -> ValidationReport:
                     "a non-empty string"
                 )
     required_quality_axes = {
-        "innovation",
         "feasibility",
         "scientific_validity",
+        "novelty",
+        "scientific_value",
         "logical_rigor",
+        "implementation_burden",
+        "learning_value",
+        "anchor_reuse",
     }
     quality_axes = (
         set(publication_goal.get("quality_axes", []))
@@ -196,6 +201,89 @@ def validate_project(project_dir: Path) -> ValidationReport:
             "PROJECT.json publication_goal: missing quality axes "
             + ", ".join(missing_quality_axes)
         )
+
+    project_brief = manifest.get("project_brief", {})
+    required_brief_keys = {
+        "manuscript_goal",
+        "anchor_use_intent",
+        "allowed_change_axes",
+        "preferred_contribution_types",
+        "resource_constraints",
+        "decision_policy",
+    }
+    missing_brief_keys = sorted(
+        required_brief_keys - set(project_brief)
+        if isinstance(project_brief, dict)
+        else required_brief_keys
+    )
+    if missing_brief_keys:
+        report.errors.append(
+            "PROJECT.json project_brief: missing keys "
+            + ", ".join(missing_brief_keys)
+        )
+    if isinstance(project_brief, dict):
+        for key in {
+            "manuscript_goal",
+            "anchor_use_intent",
+            "resource_constraints",
+        }:
+            value = project_brief.get(key)
+            if not isinstance(value, str) or not value.strip():
+                report.errors.append(
+                    f"PROJECT.json project_brief: {key} must be "
+                    "a non-empty string"
+                )
+        allowed_change_axes = project_brief.get("allowed_change_axes", [])
+        if not isinstance(allowed_change_axes, list) or not allowed_change_axes:
+            report.errors.append(
+                "PROJECT.json project_brief: allowed_change_axes must be "
+                "a non-empty list"
+            )
+        else:
+            invalid_axes = sorted(
+                set(allowed_change_axes) - set(contract["g0_change_axes"])
+            )
+            if invalid_axes:
+                report.errors.append(
+                    "PROJECT.json project_brief: invalid allowed_change_axes "
+                    + ", ".join(invalid_axes)
+                )
+        contribution_types = project_brief.get(
+            "preferred_contribution_types", []
+        )
+        if not isinstance(contribution_types, list) or not contribution_types:
+            report.errors.append(
+                "PROJECT.json project_brief: "
+                "preferred_contribution_types must be a non-empty list"
+            )
+
+        decision_policy = project_brief.get("decision_policy", {})
+        required_decision_rules = {
+            "allow_multi_axis_change",
+            "require_explicit_change_map",
+            "require_independent_quality_assessments",
+            "require_candidate_portfolio",
+            "require_human_selection",
+            "treat_repair_as_non_novel_by_default",
+        }
+        missing_decision_rules = sorted(
+            required_decision_rules - set(decision_policy)
+            if isinstance(decision_policy, dict)
+            else required_decision_rules
+        )
+        if missing_decision_rules:
+            report.errors.append(
+                "PROJECT.json project_brief decision_policy: missing keys "
+                + ", ".join(missing_decision_rules)
+            )
+        elif any(
+            decision_policy.get(rule) is not True
+            for rule in required_decision_rules
+        ):
+            report.errors.append(
+                "PROJECT.json project_brief decision_policy: all binding "
+                "rules must be true"
+            )
 
     scope_policy = manifest.get("scope_policy", {})
     required_scope_keys = {
@@ -330,16 +418,172 @@ def validate_project(project_dir: Path) -> ValidationReport:
             "PROJECT.json: active direction is rejected or superseded"
         )
 
+    allowed_anchor_roles = set(contract["anchor_roles"])
+    configured_change_axes = set(
+        project_brief.get("allowed_change_axes", [])
+        if isinstance(project_brief, dict)
+        else []
+    )
+    changes_by_direction: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for change in registries.get("direction_changes", []):
+        changes_by_direction[change.get("direction_id", "")].append(change)
+        if (
+            change.get("action") in {"replace", "extend", "drop"}
+            and change.get("axis") not in configured_change_axes
+        ):
+            report.errors.append(
+                f"direction change {change.get('change_id')} changes "
+                f"project-disallowed axis={change.get('axis')!r}"
+            )
+        if change.get("action") == "repair" and not change.get(
+            "linked_flaw_ids"
+        ):
+            report.errors.append(
+                f"direction change {change.get('change_id')} uses action=repair "
+                "without a linked anchor flaw"
+            )
+        if (
+            change.get("action") == "repair"
+            and change.get("contribution_role") == "novelty"
+        ):
+            report.warnings.append(
+                f"direction change {change.get('change_id')} treats repair "
+                "as novelty; human review must verify a generalizable new "
+                "contribution rather than correction alone"
+            )
+
+    assessments_by_direction: dict[str, list[dict[str, str]]] = defaultdict(
+        list
+    )
+    for assessment in registries.get("direction_assessments", []):
+        assessments_by_direction[assessment.get("direction_id", "")].append(
+            assessment
+        )
+
+    fatal_flaw_ids = {
+        flaw.get("flaw_id", "")
+        for flaw in registries.get("anchor_flaws", [])
+        if flaw.get("severity") == "fatal_if_unrepaired"
+        and flaw.get("status") != "resolved"
+    }
+
     for row in registries.get("directions", []):
-        if row.get("status") not in {"approved", "active"}:
-            continue
         direction_name = row.get("direction_id", "(unknown)")
-        for field_name in {"primary_change_axis", "ambition_tier"}:
-            if row.get(field_name) == "undecided":
+        anchor_roles = set(
+            _split_reference(row.get("anchor_roles_used", ""), True)
+        )
+        invalid_roles = sorted(anchor_roles - allowed_anchor_roles)
+        if invalid_roles:
+            report.errors.append(
+                f"direction {direction_name} has invalid anchor roles: "
+                + ", ".join(invalid_roles)
+            )
+
+        if row.get("direction_kind") == "umbrella":
+            continue
+
+        changes = changes_by_direction.get(direction_name, [])
+        axis_counts: dict[str, int] = defaultdict(int)
+        for change in changes:
+            axis_counts[change.get("axis", "")] += 1
+        missing_axes = sorted(
+            set(contract["g0_core_axes"]) - set(axis_counts)
+        )
+        duplicate_axes = sorted(
+            axis for axis, count in axis_counts.items() if count > 1
+        )
+        if missing_axes:
+            report.errors.append(
+                f"direction {direction_name} lacks core change-map axes: "
+                + ", ".join(missing_axes)
+            )
+        if duplicate_axes:
+            report.errors.append(
+                f"direction {direction_name} repeats change-map axes: "
+                + ", ".join(duplicate_axes)
+            )
+        linked_flaws = {
+            flaw_id
+            for change in changes
+            for flaw_id in _split_reference(
+                change.get("linked_flaw_ids", ""), True
+            )
+        }
+        unaddressed_fatal_flaws = sorted(fatal_flaw_ids - linked_flaws)
+        if unaddressed_fatal_flaws:
+            report.errors.append(
+                f"direction {direction_name} does not explicitly respond to "
+                "fatal anchor flaws: " + ", ".join(unaddressed_fatal_flaws)
+            )
+
+        assessments = assessments_by_direction.get(direction_name, [])
+        if len(assessments) != 1:
+            report.errors.append(
+                f"direction {direction_name} requires exactly one independent "
+                f"assessment row; found {len(assessments)}"
+            )
+            continue
+        assessment = assessments[0]
+        recommendation = assessment.get("recommendation")
+        assessment_status = assessment.get("status")
+
+        if (
+            row.get("direction_kind") == "training_only"
+            and recommendation != "training_only"
+        ):
+            report.errors.append(
+                f"training-only direction {direction_name} must use "
+                "recommendation=training_only"
+            )
+        if row.get("status") == "challenged" and recommendation in {
+            "primary",
+            "backup",
+        }:
+            report.errors.append(
+                f"challenged direction {direction_name} cannot remain a "
+                f"{recommendation} recommendation"
+            )
+        if row.get("status") in {"approved", "active"}:
+            if assessment_status != "approved":
                 report.errors.append(
-                    f"approved direction {direction_name} has undecided "
-                    f"{field_name}"
+                    f"approved direction {direction_name} lacks an approved "
+                    "independent assessment"
                 )
+            if row.get("direction_kind") == "manuscript_candidate":
+                failed_dimensions = [
+                    field_name
+                    for field_name in {
+                        "scientific_validity",
+                        "feasibility",
+                        "novelty",
+                        "scientific_value",
+                    }
+                    if assessment.get(field_name) != "pass"
+                ]
+                if failed_dimensions:
+                    report.errors.append(
+                        f"approved manuscript direction {direction_name} does "
+                        "not pass: " + ", ".join(sorted(failed_dimensions))
+                    )
+
+    if (
+        manifest.get("project_status") == "direction_review"
+        and isinstance(project_brief, dict)
+        and project_brief.get("decision_policy", {}).get(
+            "require_candidate_portfolio"
+        )
+    ):
+        manuscript_candidates = [
+            row
+            for row in registries.get("directions", [])
+            if row.get("direction_kind") == "manuscript_candidate"
+            and row.get("status") not in {"superseded", "rejected"}
+        ]
+        if len(manuscript_candidates) < 2:
+            report.errors.append(
+                "direction-review project requires at least two live "
+                "manuscript candidates so trade-offs remain reviewable"
+            )
 
     results_needing_change = {
         row["result_id"]
@@ -407,7 +651,7 @@ def validate_project(project_dir: Path) -> ValidationReport:
     )
     if required_effects != {"refine", "reroute", "stop"}:
         report.warnings.append(
-            "feedback policy differs from the v0.1 default"
+            "feedback policy differs from the v0.2 default"
         )
 
     return report
@@ -448,15 +692,50 @@ def init_project(target: Path, project_id: str, title: str) -> Path:
                 "Audited imitation and justified adaptation, not copying"
             ),
             "quality_axes": [
-                "innovation",
                 "feasibility",
                 "scientific_validity",
+                "novelty",
+                "scientific_value",
                 "logical_rigor",
+                "implementation_burden",
+                "learning_value",
+                "anchor_reuse",
             ],
             "success_definition": (
                 "An evidence-linked manuscript draft with reproducible "
                 "source tables, figures, methods, and explicit limitations"
             ),
+        },
+        "project_brief": {
+            "manuscript_goal": (
+                "Define the intended manuscript contribution before ranking "
+                "candidate adaptations."
+            ),
+            "anchor_use_intent": (
+                "Record whether the anchor supplies the question, design, "
+                "data, method, code, evidence chain, narrative, or a negative "
+                "example."
+            ),
+            "allowed_change_axes": list(contract["g0_change_axes"]),
+            "preferred_contribution_types": [
+                "biological",
+                "clinical",
+                "methodological",
+                "resource",
+                "validation",
+            ],
+            "resource_constraints": (
+                "Replace this draft text with confirmed data, code, compute, "
+                "time, skill, access, and experimental constraints."
+            ),
+            "decision_policy": {
+                "allow_multi_axis_change": True,
+                "require_explicit_change_map": True,
+                "require_independent_quality_assessments": True,
+                "require_candidate_portfolio": True,
+                "require_human_selection": True,
+                "treat_repair_as_non_novel_by_default": True,
+            },
         },
         "scope_policy": {
             "allowed_work_reasons": [

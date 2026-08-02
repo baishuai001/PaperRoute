@@ -34,26 +34,24 @@ PaperRoute 同时服务于学习和论文产出，但必须分别评价学习价
 
 方向选择遵守两条边界：
 
-- **创新下限**：不能只是替换癌种、细胞、基因或名称；必须新增至少一个
-  有意义的问题、证据、适用边界、临床联系或方法价值；
+- **创新下限**：不能只用替换癌种、细胞、基因或名称这一事实证明创新；必须说明相对
+  最近邻文献新增了什么认识、为什么有价值，以及哪项决定性证据能够证明；
 - **雄心上限**：主张深度和研究复杂度不得超过可获得数据、可靠代码、
   验证条件、时间、算力、实验资源和项目成员当前能力能够支撑的范围。
 
-G0 必须为每个候选方向选择一个贡献与难度层级：
+G0 不以改动数量判断创新或风险。疾病、核心对象、中心关系、主要结局和证据结构可以
+保留，也可以同时修复、替换、扩展或删除。每项改变必须记录科学理由、贡献、所需证据、
+代码或方法 donor、相互作用风险和停止条件。允许多轴改编，但不允许用复杂度掩盖缺乏
+明确问题。
 
-- `training_reproduction`：以精确复现或独立重建为主，主要交付学习成果；
-  单独完成通常不足以形成新论文；
-- `bounded_adaptation`：保留锚点研究骨架，只改变一个主要轴并增加必要验证；
-  这是初学者论文项目的默认候选层级；
-- `evidence_extension`：增加独立队列、证据尺度、临床终点或稳健性证据，
-  需要更强的数据整合和验证能力；
-- `mechanistic_extension`：加入新的干预、实验或因果证据，只有在相应资源
-  已确认时才可推荐，不得作为默认目标。
+候选方向必须分别评价科学有效性、可行性、新颖性、科学价值、实施负担、学习价值和
+锚点复用；这些是彼此独立的维度，不得压缩成单一“雄心层级”或不透明总分。硬伤修复
+默认恢复可信度而不自动构成创新；若要把修复作为方法学贡献，必须单独证明其可推广性
+和最近邻空缺。
 
-这些层级描述证据负担和项目风险，不承诺任何期刊，也不与影响因子机械
-对应。AI 在提出高雄心路线时，必须同时给出至少一个更现实的受控路线，
-说明两者的学习收益、论文贡献、成本、失败风险和停止条件。降低不现实的
-雄心不等于放弃创新；保留创新要求也不等于把项目推向最高难度。
+“最小充分”约束的是对中心结论无必要的工作量，不是与锚点的表面距离。多轴替换可以是
+合理的最小充分方案，单轴改变也可能实质上改变稿件类型。AI 必须同时呈现互有取舍的
+合格候选，说明学习收益、论文贡献、成本、失败风险和停止条件，由项目负责人选择。
 
 ## 4. 四项核心质量标准
 
@@ -156,10 +154,12 @@ PaperRoute 项目的完成，不以 workflow 功能数量衡量，而以是否�
 PaperRoute exists to help a beginner-led project produce a scientifically
 defensible manuscript through audited imitation and justified adaptation.
 Anchor-paper prestige, learning value, and target-manuscript ambition are
-separate judgments. Each direction must state its learning objective,
-contribution tier, novelty floor, and ambition ceiling; bounded adaptation is
-the default beginner candidate, while high-burden mechanistic work requires
-confirmed resources.
+separate judgments. A candidate may retain, repair, replace, extend, or drop
+one or multiple scientific components. Change count is not a novelty metric.
+Every change requires a scientific rationale, contribution role, evidence and
+donor plan, and risk statement. Scientific validity, feasibility, novelty,
+scientific value, implementation burden, learning value, and anchor reuse are
+audited independently and reviewed as explicit trade-offs.
 Software and workflow optimization are subordinate to manuscript value.
 Every work item must link to a manuscript claim, evidence gap, correctness
 risk, reproducibility requirement, or review requirement; it must also define

@@ -1,5 +1,0 @@
-resource_id	resource_type	name	uri	availability	role	status	notes
-RESOURCE-DATA-001	dataset	GSE164522	https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE164522	public	Candidate CRLM single-cell cohort	candidate	Processed expression and metadata are public; role requires direction audit.
-RESOURCE-METHOD-001	method	Patient-level pseudobulk differential testing	https://bioconductor.org/packages/muscat/	public	Candidate inferential method	candidate	Method choice must match counts and replicate structure.
-RESOURCE-CODE-001	code	muscat official vignette	https://bioconductor.org/packages/release/bioc/html/muscat.html	public	Candidate implementation donor	candidate	Use the Bioconductor release compatible with the project R version.
-RESOURCE-ENV-001	environment	R 4.4-compatible project environment		local	Execution environment	candidate	Exact package lock is not yet frozen.

@@ -1,0 +1,76 @@
+{
+  "schema_version": "0.2.0",
+  "project_id": "PRJ-BMC-GC-NERVE-2025",
+  "title": "BMC Cancer 2025 gastric nerve-related prognostic model G0 audit",
+  "project_status": "direction_review",
+  "current_gate": "G0_DIRECTION",
+  "anchor_paper_id": "PAPER-001",
+  "active_direction_id": "DIR-001",
+  "publication_goal": {
+    "primary_output": "A scientifically defensible manuscript",
+    "audience": "Beginner-led project with AI assistance",
+    "approach": "Audited imitation and justified adaptation, not copying",
+    "quality_axes": [
+      "feasibility",
+      "scientific_validity",
+      "novelty",
+      "scientific_value",
+      "logical_rigor",
+      "implementation_burden",
+      "learning_value",
+      "anchor_reuse"
+    ],
+    "success_definition": "An evidence-linked manuscript draft with reproducible source tables, figures, methods, and explicit limitations"
+  },
+  "project_brief": {
+    "manuscript_goal": "Produce a beginner-executable gastric-cancer manuscript by comparing faithful repair, scientifically justified single- or multi-axis adaptation, and evidence-extension routes; do not automatically convert weaknesses in the published NRRS into a construct-audit paper.",
+    "anchor_use_intent": "Use the NRRS paper as a prognostic-model chapter, multi-cohort data index, cross-scale design donor, and negative example for leakage and reporting gaps; do not treat its nerve label, author code, or exact analyzed subsets as ground truth.",
+    "allowed_change_axes": [
+      "disease_context",
+      "biological_object",
+      "central_relation",
+      "primary_outcome",
+      "evidence_architecture",
+      "data",
+      "method",
+      "code",
+      "claim_level"
+    ],
+    "preferred_contribution_types": [
+      "biological",
+      "clinical",
+      "methodological",
+      "validation"
+    ],
+    "resource_constraints": "Prioritize public bulk, single-cell, and spatial resources plus verified prognostic-model code donors; exact author code and the in-house controlled single-cell cohort are unavailable, so neither may be an indispensable dependency.",
+    "decision_policy": {
+      "allow_multi_axis_change": true,
+      "require_explicit_change_map": true,
+      "require_independent_quality_assessments": true,
+      "require_candidate_portfolio": true,
+      "require_human_selection": true,
+      "treat_repair_as_non_novel_by_default": true
+    }
+  },
+  "scope_policy": {
+    "allowed_work_reasons": [
+      "manuscript_claim",
+      "evidence_gap",
+      "correctness_risk",
+      "reproducibility_requirement",
+      "review_requirement"
+    ],
+    "optimization_stop_rule": "Stop when the minimum implementation needed for manuscript validity, reproducibility, and reviewability is complete",
+    "require_work_item_for_modules": true,
+    "require_manuscript_implication_for_results": true
+  },
+  "feedback_policy": {
+    "effects_requiring_change_request": [
+      "refine",
+      "reroute",
+      "stop"
+    ],
+    "invalidate_downstream_on_approved_change": true,
+    "require_review_before_high_impact_change": true
+  }
+}

@@ -1,2 +1,0 @@
-claim_id	direction_id	status	claim_text	biological_unit	required_evidence	claim_ceiling	validity
-CLAIM-001	DIR-001	proposed	An independently defined SPP1+TAM state is associated with colorectal cancer liver metastasis across public cohorts	Patient or independent sample	Discovery cohort; independent validation; sample-level differential abundance	Associational	current

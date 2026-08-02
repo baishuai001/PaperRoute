@@ -15,7 +15,12 @@ from paperroute.core import (
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE_PROJECT = REPOSITORY_ROOT / "examples" / "spp1-tam-jitc"
+SPP1_PROJECT = REPOSITORY_ROOT / "workspaces" / "spp1-tam-jitc"
+BMC_PROJECT = (
+    REPOSITORY_ROOT
+    / "workspaces"
+    / "bmc-cancer-2025-gastric-nerve-model"
+)
 
 
 def append_tsv(path: Path, values: list[str]) -> None:
@@ -24,16 +29,43 @@ def append_tsv(path: Path, values: list[str]) -> None:
         writer.writerow(values)
 
 
+def read_tsv_rows(path: Path) -> tuple[list[str], list[dict[str, str]]]:
+    with path.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        return list(reader.fieldnames or []), list(reader)
+
+
+def write_tsv_rows(
+    path: Path, fieldnames: list[str], rows: list[dict[str, str]]
+) -> None:
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=fieldnames,
+            delimiter="\t",
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 class PaperRouteCoreTests(unittest.TestCase):
     def test_example_project_validates(self) -> None:
-        report = validate_project(EXAMPLE_PROJECT)
+        report = validate_project(SPP1_PROJECT)
         self.assertTrue(report.ok, report.errors)
 
-    def test_direction_impact_reaches_claim_and_module(self) -> None:
-        impacted = downstream_impact(EXAMPLE_PROJECT, "DIR-001")
+    def test_bmc_audit_workspace_validates(self) -> None:
+        report = validate_project(BMC_PROJECT)
+        self.assertTrue(report.ok, report.errors)
+
+    def test_direction_impact_reaches_candidates_but_not_retired_module(
+        self,
+    ) -> None:
+        impacted = downstream_impact(SPP1_PROJECT, "DIR-001")
         ids = {item["entity_id"] for item in impacted}
         self.assertIn("CLAIM-001", ids)
-        self.assertIn("MODULE-001", ids)
+        self.assertIn("DIR-002", ids)
+        self.assertNotIn("MODULE-001", ids)
 
     def test_init_creates_valid_draft(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -44,11 +76,22 @@ class PaperRouteCoreTests(unittest.TestCase):
             self.assertTrue(
                 (target / "registry" / "work_items.tsv").exists()
             )
+            self.assertTrue(
+                (target / "registry" / "direction_changes.tsv").exists()
+            )
+            manifest = json.loads(
+                (target / "PROJECT.json").read_text(encoding="utf-8")
+            )
+            self.assertTrue(
+                manifest["project_brief"]["decision_policy"][
+                    "allow_multi_axis_change"
+                ]
+            )
 
     def test_publication_goal_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
+            shutil.copytree(SPP1_PROJECT, target)
             manifest_path = target / "PROJECT.json"
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             del manifest["publication_goal"]
@@ -62,10 +105,49 @@ class PaperRouteCoreTests(unittest.TestCase):
                 any("publication_goal" in error for error in report.errors)
             )
 
+    def test_project_brief_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "project"
+            shutil.copytree(SPP1_PROJECT, target)
+            manifest_path = target / "PROJECT.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            del manifest["project_brief"]
+            manifest_path.write_text(
+                json.dumps(manifest, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            report = validate_project(target)
+            self.assertFalse(report.ok)
+            self.assertTrue(
+                any("project_brief" in error for error in report.errors)
+            )
+
+    def test_candidate_cannot_change_a_project_disallowed_axis(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "project"
+            shutil.copytree(BMC_PROJECT, target)
+            manifest_path = target / "PROJECT.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["project_brief"]["allowed_change_axes"].remove(
+                "biological_object"
+            )
+            manifest_path.write_text(
+                json.dumps(manifest, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            report = validate_project(target)
+            self.assertFalse(report.ok)
+            self.assertTrue(
+                any(
+                    "project-disallowed axis='biological_object'" in error
+                    for error in report.errors
+                )
+            )
+
     def test_work_item_requires_a_stop_condition(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
+            shutil.copytree(SPP1_PROJECT, target)
             registry_path = target / "registry" / "work_items.tsv"
             with registry_path.open(
                 encoding="utf-8", newline=""
@@ -96,74 +178,137 @@ class PaperRouteCoreTests(unittest.TestCase):
                 )
             )
 
-    def test_direction_requires_a_valid_ambition_tier(self) -> None:
+    def test_non_umbrella_direction_requires_every_core_axis(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
-            registry_path = target / "registry" / "directions.tsv"
-            with registry_path.open(
-                encoding="utf-8", newline=""
-            ) as handle:
-                reader = csv.DictReader(handle, delimiter="\t")
-                fieldnames = reader.fieldnames
-                rows = list(reader)
-            self.assertIsNotNone(fieldnames)
-            rows[0]["ambition_tier"] = "automatic_top_tier"
-            with registry_path.open(
-                "w", encoding="utf-8", newline=""
-            ) as handle:
-                writer = csv.DictWriter(
-                    handle,
-                    fieldnames=fieldnames,
-                    delimiter="\t",
-                    lineterminator="\n",
+            shutil.copytree(SPP1_PROJECT, target)
+            registry_path = target / "registry" / "direction_changes.tsv"
+            fieldnames, rows = read_tsv_rows(registry_path)
+            rows = [
+                row
+                for row in rows
+                if not (
+                    row["direction_id"] == "DIR-002"
+                    and row["axis"] == "primary_outcome"
                 )
-                writer.writeheader()
-                writer.writerows(rows)
+            ]
+            write_tsv_rows(registry_path, fieldnames, rows)
 
             report = validate_project(target)
             self.assertFalse(report.ok)
             self.assertTrue(
                 any(
-                    "invalid ambition_tier" in error
+                    "DIR-002 lacks core change-map axes" in error
+                    and "primary_outcome" in error
                     for error in report.errors
                 )
             )
 
-    def test_approved_direction_requires_a_decided_ambition_tier(
-        self,
-    ) -> None:
+    def test_repair_action_requires_a_linked_flaw(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
-            registry_path = target / "registry" / "directions.tsv"
-            with registry_path.open(
-                encoding="utf-8", newline=""
-            ) as handle:
-                reader = csv.DictReader(handle, delimiter="\t")
-                fieldnames = reader.fieldnames
-                rows = list(reader)
-            self.assertIsNotNone(fieldnames)
-            rows[0]["status"] = "approved"
-            rows[0]["primary_change_axis"] = "immune_state"
-            with registry_path.open(
-                "w", encoding="utf-8", newline=""
-            ) as handle:
-                writer = csv.DictWriter(
-                    handle,
-                    fieldnames=fieldnames,
-                    delimiter="\t",
-                    lineterminator="\n",
-                )
-                writer.writeheader()
-                writer.writerows(rows)
+            shutil.copytree(BMC_PROJECT, target)
+            registry_path = target / "registry" / "direction_changes.tsv"
+            fieldnames, rows = read_tsv_rows(registry_path)
+            target_row = next(
+                row
+                for row in rows
+                if row["change_id"] == "CHANGE-D002-02"
+            )
+            target_row["linked_flaw_ids"] = ""
+            write_tsv_rows(registry_path, fieldnames, rows)
 
             report = validate_project(target)
             self.assertFalse(report.ok)
             self.assertTrue(
                 any(
-                    "approved direction DIR-001 has undecided "
-                    "ambition_tier" in error
+                    "CHANGE-D002-02 uses action=repair" in error
+                    for error in report.errors
+                )
+            )
+
+    def test_candidate_must_respond_to_every_fatal_anchor_flaw(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "project"
+            shutil.copytree(BMC_PROJECT, target)
+            registry_path = target / "registry" / "direction_changes.tsv"
+            fieldnames, rows = read_tsv_rows(registry_path)
+            target_row = next(
+                row
+                for row in rows
+                if row["change_id"] == "CHANGE-D003-04"
+            )
+            target_row["linked_flaw_ids"] = "FLAW-006"
+            write_tsv_rows(registry_path, fieldnames, rows)
+
+            report = validate_project(target)
+            self.assertFalse(report.ok)
+            self.assertTrue(
+                any(
+                    "DIR-003 does not explicitly respond" in error
+                    and "FLAW-005" in error
+                    for error in report.errors
+                )
+            )
+
+    def test_multi_axis_adaptation_is_allowed(self) -> None:
+        fieldnames, rows = read_tsv_rows(
+            BMC_PROJECT / "registry" / "direction_changes.tsv"
+        )
+        self.assertIn("action", fieldnames)
+        changed_axes = {
+            row["axis"]
+            for row in rows
+            if row["direction_id"] == "DIR-003"
+            and row["action"] in {"replace", "extend", "drop"}
+        }
+        self.assertGreaterEqual(len(changed_axes), 3)
+        report = validate_project(BMC_PROJECT)
+        self.assertTrue(report.ok, report.errors)
+
+    def test_challenged_direction_cannot_remain_primary(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "project"
+            shutil.copytree(BMC_PROJECT, target)
+            registry_path = (
+                target / "registry" / "direction_assessments.tsv"
+            )
+            fieldnames, rows = read_tsv_rows(registry_path)
+            target_row = next(
+                row
+                for row in rows
+                if row["direction_id"] == "DIR-002"
+            )
+            target_row["recommendation"] = "primary"
+            write_tsv_rows(registry_path, fieldnames, rows)
+
+            report = validate_project(target)
+            self.assertFalse(report.ok)
+            self.assertTrue(
+                any(
+                    "challenged direction DIR-002 cannot remain" in error
+                    for error in report.errors
+                )
+            )
+
+    def test_approved_manuscript_direction_must_pass_assessment(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "project"
+            shutil.copytree(BMC_PROJECT, target)
+            directions_path = target / "registry" / "directions.tsv"
+            fieldnames, rows = read_tsv_rows(directions_path)
+            target_row = next(
+                row for row in rows if row["direction_id"] == "DIR-004"
+            )
+            target_row["status"] = "approved"
+            write_tsv_rows(directions_path, fieldnames, rows)
+
+            report = validate_project(target)
+            self.assertFalse(report.ok)
+            self.assertTrue(
+                any(
+                    "approved manuscript direction DIR-004 does not pass"
+                    in error
                     for error in report.errors
                 )
             )
@@ -171,7 +316,7 @@ class PaperRouteCoreTests(unittest.TestCase):
     def test_directional_result_requires_change_request(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             target = Path(temp_dir) / "project"
-            shutil.copytree(EXAMPLE_PROJECT, target)
+            shutil.copytree(SPP1_PROJECT, target)
 
             append_tsv(
                 target / "registry" / "runs.tsv",

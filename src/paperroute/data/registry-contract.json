@@ -1,5 +1,33 @@
 {
-  "schema_version": "0.1.0",
+  "schema_version": "0.2.0",
+  "g0_core_axes": [
+    "disease_context",
+    "biological_object",
+    "central_relation",
+    "primary_outcome",
+    "evidence_architecture"
+  ],
+  "g0_change_axes": [
+    "disease_context",
+    "biological_object",
+    "central_relation",
+    "primary_outcome",
+    "evidence_architecture",
+    "data",
+    "method",
+    "code",
+    "claim_level"
+  ],
+  "anchor_roles": [
+    "question",
+    "design",
+    "data",
+    "method",
+    "code",
+    "evidence_chain",
+    "narrative",
+    "negative_example"
+  ],
   "project_statuses": [
     "draft",
     "direction_review",
@@ -44,35 +72,37 @@
         "direction_id",
         "version",
         "parent_direction_id",
+        "direction_kind",
         "status",
         "title",
-        "invariants",
-        "primary_change_axis",
-        "secondary_extension",
-        "ambition_tier",
+        "plain_language_question",
+        "biological_unit",
+        "decisive_evidence",
+        "falsifier",
+        "anchor_roles_used",
         "learning_objective",
         "target_contribution",
-        "novelty_floor",
-        "ambition_ceiling",
-        "novelty_summary",
-        "feasibility_summary",
         "claim_ceiling",
         "approved_review_id"
       ],
       "nonempty_fields": [
+        "direction_kind",
         "title",
-        "invariants",
-        "primary_change_axis",
-        "ambition_tier",
+        "plain_language_question",
+        "biological_unit",
+        "decisive_evidence",
+        "falsifier",
+        "anchor_roles_used",
         "learning_objective",
         "target_contribution",
-        "novelty_floor",
-        "ambition_ceiling",
-        "novelty_summary",
-        "feasibility_summary",
         "claim_ceiling"
       ],
       "enums": {
+        "direction_kind": [
+          "umbrella",
+          "manuscript_candidate",
+          "training_only"
+        ],
         "status": [
           "proposed",
           "pre_audit",
@@ -81,13 +111,6 @@
           "challenged",
           "superseded",
           "rejected"
-        ],
-        "ambition_tier": [
-          "undecided",
-          "training_reproduction",
-          "bounded_adaptation",
-          "evidence_extension",
-          "mechanistic_extension"
         ]
       },
       "references": [
@@ -100,6 +123,212 @@
           "field": "approved_review_id",
           "target": "reviews",
           "optional": true
+        }
+      ]
+    },
+    "anchor_flaws": {
+      "file": "anchor_flaws.tsv",
+      "id_field": "flaw_id",
+      "required_columns": [
+        "flaw_id",
+        "component_axis",
+        "flaw_type",
+        "affected_scope",
+        "severity",
+        "description",
+        "evidence",
+        "required_response",
+        "candidate_implication",
+        "status"
+      ],
+      "nonempty_fields": [
+        "component_axis",
+        "flaw_type",
+        "affected_scope",
+        "severity",
+        "description",
+        "evidence",
+        "required_response",
+        "candidate_implication",
+        "status"
+      ],
+      "enums": {
+        "component_axis": [
+          "disease_context",
+          "biological_object",
+          "central_relation",
+          "primary_outcome",
+          "evidence_architecture",
+          "data",
+          "method",
+          "code",
+          "claim_level"
+        ],
+        "flaw_type": [
+          "scientific_validity",
+          "reproducibility",
+          "evidence_gap",
+          "feasibility",
+          "reporting",
+          "limitation"
+        ],
+        "affected_scope": ["claim", "module", "resource", "route"],
+        "severity": ["minor", "major", "fatal_if_unrepaired"],
+        "required_response": [
+          "repair",
+          "downgrade_claim",
+          "replace_resource",
+          "drop_component",
+          "reject_if_indispensable",
+          "disclose"
+        ],
+        "status": [
+          "open",
+          "planned",
+          "accepted_limitation",
+          "resolved"
+        ]
+      },
+      "references": []
+    },
+    "direction_changes": {
+      "file": "direction_changes.tsv",
+      "id_field": "change_id",
+      "required_columns": [
+        "change_id",
+        "direction_id",
+        "axis",
+        "action",
+        "anchor_value",
+        "proposed_value",
+        "scientific_rationale",
+        "contribution_role",
+        "required_evidence",
+        "donor_plan",
+        "risk",
+        "linked_flaw_ids"
+      ],
+      "nonempty_fields": [
+        "direction_id",
+        "axis",
+        "action",
+        "anchor_value",
+        "proposed_value",
+        "scientific_rationale",
+        "contribution_role",
+        "required_evidence",
+        "donor_plan",
+        "risk"
+      ],
+      "enums": {
+        "axis": [
+          "disease_context",
+          "biological_object",
+          "central_relation",
+          "primary_outcome",
+          "evidence_architecture",
+          "data",
+          "method",
+          "code",
+          "claim_level"
+        ],
+        "action": ["retain", "repair", "replace", "extend", "drop"],
+        "contribution_role": [
+          "none",
+          "validity_repair",
+          "feasibility_repair",
+          "novelty",
+          "scientific_value",
+          "scope_control",
+          "learning"
+        ]
+      },
+      "references": [
+        {
+          "field": "direction_id",
+          "target": "directions",
+          "optional": false
+        },
+        {
+          "field": "linked_flaw_ids",
+          "target": "anchor_flaws",
+          "optional": true,
+          "multi": true
+        }
+      ]
+    },
+    "direction_assessments": {
+      "file": "direction_assessments.tsv",
+      "id_field": "assessment_id",
+      "required_columns": [
+        "assessment_id",
+        "direction_id",
+        "scientific_validity",
+        "scientific_validity_basis",
+        "feasibility",
+        "feasibility_basis",
+        "novelty",
+        "novelty_basis",
+        "scientific_value",
+        "scientific_value_basis",
+        "implementation_burden",
+        "learning_value",
+        "anchor_reuse",
+        "nearest_neighbor_evidence",
+        "key_tradeoff",
+        "fatal_blocker",
+        "recommendation",
+        "status"
+      ],
+      "nonempty_fields": [
+        "direction_id",
+        "scientific_validity",
+        "scientific_validity_basis",
+        "feasibility",
+        "feasibility_basis",
+        "novelty",
+        "novelty_basis",
+        "scientific_value",
+        "scientific_value_basis",
+        "implementation_burden",
+        "learning_value",
+        "anchor_reuse",
+        "nearest_neighbor_evidence",
+        "key_tradeoff",
+        "fatal_blocker",
+        "recommendation",
+        "status"
+      ],
+      "enums": {
+        "scientific_validity": ["pass", "conditional", "fail", "unknown"],
+        "feasibility": ["pass", "conditional", "fail", "unknown"],
+        "novelty": ["pass", "conditional", "fail", "unknown"],
+        "scientific_value": ["pass", "conditional", "fail", "unknown"],
+        "implementation_burden": [
+          "low",
+          "medium",
+          "high",
+          "very_high",
+          "unknown"
+        ],
+        "learning_value": ["low", "medium", "high", "very_high", "unknown"],
+        "anchor_reuse": ["low", "medium", "high", "very_high", "unknown"],
+        "recommendation": [
+          "primary",
+          "backup",
+          "conditional",
+          "reserve",
+          "training_only",
+          "reject",
+          "reassess"
+        ],
+        "status": ["draft", "review_ready", "approved", "challenged"]
+      },
+      "references": [
+        {
+          "field": "direction_id",
+          "target": "directions",
+          "optional": false
         }
       ]
     },

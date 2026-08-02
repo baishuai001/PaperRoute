@@ -14,8 +14,14 @@ Software generalization is not a goal by itself.
 - Validation and status commands
 - SPP1+TAM pilot instance
 
-## v0.2 - Evidence availability audit
+## v0.2 - Scientific direction model and evidence availability
 
+- Project-specific decision briefs and anchor-role profiles
+- Claim-scoped flaw registers
+- Multi-axis retain/repair/replace/extend/drop maps
+- Independent validity, feasibility, novelty, value, burden, learning, and
+  reuse assessments
+- Scientific decision regression cases
 - Paper and supplementary-material intake
 - Dataset, file, method, and code-source specialization
 - Availability and access gates
@@ -25,7 +31,8 @@ Software generalization is not a goal by itself.
 ## v0.3 - Analysis specifications
 
 - Typed input and output contracts
-- Biological replicate and estimand fields
+- Deep biological replicate and estimand specifications beyond the minimum G0
+  manuscript kernel
 - Parameter provenance
 - Discovery and validation separation
 - Claim-ceiling checks

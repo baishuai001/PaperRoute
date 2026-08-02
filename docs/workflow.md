@@ -15,33 +15,54 @@ At every gate, proposed work must pass the manuscript-relevance test:
 
 ## G0 - Direction
 
-- Extract the anchor paper's research grammar.
-- Separate anchor-paper prestige, learning value, and target-manuscript
-  ambition; one does not automatically determine the others.
-- Define invariants and candidate substitution or extension axes.
-- Audit nearby literature, novelty, feasibility, fatal confounding, and claim
-  ceiling.
-- Give every candidate a learning objective, target contribution, novelty
-  floor, ambition ceiling, and one of four ambition tiers.
-- Apply fatal-veto criteria before comparative ranking so that novelty cannot
-  compensate for unavailable core data, invalid design, or unsupported claims.
-- Present at least one realistic bounded route before recommending a
-  high-burden mechanistic route.
-- Select a primary and backup direction through human review.
+G0 follows the binding [decision standard](g0-decision-standard.md):
 
-### G0 ambition tiers
+1. **Project brief** — state the manuscript goal, intended anchor roles,
+   permitted change axes, contribution preferences, resource constraints, and
+   human decision policy.
+2. **Anchor decomposition** — extract disease context, biological object,
+   central relation, primary outcome, evidence architecture, data, methods,
+   code, and claim level.
+3. **Flaw triage** — distinguish claim-, module-, resource-, and route-level
+   flaws from ordinary limitations and opportunities. A flaw does not
+   automatically become the new manuscript question.
+4. **Candidate portfolio** — generate scientifically coherent combinations of
+   retain, repair, replace, extend, and drop actions. Multi-axis change is
+   permitted; change count is not a novelty metric.
+5. **Change maps** — give every non-umbrella candidate exactly one explicit
+   decision for each core axis, plus rationale, contribution role, evidence,
+   donor plan, linked flaw, and risk.
+6. **Independent assessment** — audit scientific validity, feasibility,
+   novelty, scientific value, implementation burden, learning value, and anchor
+   reuse separately. Do not collapse them into an ambition tier or total score.
+7. **Manuscript kernel** — state the plain-language question, biological unit,
+   decisive evidence, falsifier, target contribution, and claim ceiling.
+8. **Human selection** — present non-dominated trade-offs. AI recommendations
+   remain proposed until the project owner approves one direction and records
+   the rationale.
 
-- `training_reproduction`: reproduction or independent reconstruction for
-  learning; normally preparatory rather than a new manuscript by itself.
-- `bounded_adaptation`: one primary change axis plus necessary validation; the
-  default candidate for a beginner-led manuscript.
-- `evidence_extension`: additional cohorts, scales, endpoints, or robustness
-  evidence with a higher integration burden.
-- `mechanistic_extension`: new intervention, experimental, or causal evidence;
-  eligible only after the required resources are confirmed.
+### Required G0 outputs
 
-The tiers describe evidence burden and project risk. They are not journal
-promises and do not map mechanically to impact factors.
+G0 is not complete until the review packet contains:
+
+1. a project-specific brief rather than the generic goal of “a defensible
+   manuscript”;
+2. an anchor-role verdict separating question, design, data, method, code,
+   evidence-chain, narrative, and negative-example reuse;
+3. a flaw register with scope, severity, required response, and candidate
+   implication;
+4. a dataset access, overlap, independence, and minimum-field map;
+5. a candidate portfolio with explicit rejected or challenged routes;
+6. one core-axis change map and one independent assessment per candidate;
+7. a manuscript kernel and minimum sufficient evidence for every live
+   manuscript candidate;
+8. a training-only route when useful, kept separate from manuscript candidates;
+9. a diagnosis of whether weak recommendations arose from the workflow, the
+   anchor paper, the available evidence, or their interaction.
+
+G0 has no single ambition-tier enum. Evidence level, implementation burden,
+learning value, anchor reuse, and scientific contribution are orthogonal and
+may coexist in different combinations.
 
 ## G1 - Evidence
 
